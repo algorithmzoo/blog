@@ -1,39 +1,36 @@
 # R version: 2.12.2
 # Data Source: http://finance.yahoo.com
-# Symbol: MNX 
+# Symbol: ^RUT
 # please send feedback to milktrader@gmail.com 
 
 # source the future() function
 
 source("future.r")
 
-# get everything
-
-future(sym="MNX")
-M       <- sym.future.returns
-
 # index out event
 
-m       <- M[M$RET > .03 & M$MON == 1]
-m$ans   <- 227 + (227*m$in.4)
+future(sym="^RUT")
+R       <- sym.future.returns
+r       <- R[R$RET > .04 & R$MON == 1]
+rr      <- na.omit(r)
+rr$ans  <- 685 + (685*rr$in.4)
 
 # prepare the plot
 
-d       <- density(m$ans)
-max     <- 255
-min     <- 190
-more    <- 227
-less    <- 227
+d       <- density(rr$ans)
+max     <- 845
+min     <- 560
+less    <- 685
+more    <- 685
 x1      <- min(which(d$x >= more))  
-x1      <- min(which(dd$x >= more))  
-x2      <- max(which(dd$x <  max))
-x3      <- min(which(dd$x >= min))  
-x4      <- max(which(dd$x <  less))
+x2      <- max(which(d$x <  max))
+x3      <- min(which(d$x >= min))  
+x4      <- max(which(d$x <  less))
 
 # plot and save
 
 png("path/to/my_directory/my_file.png")
 plot(d, main="", yaxt='n', xlab="Oct 14, 2011", ylab="")
-with(d, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="darkseagreen"))
-with(d, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="darkturquoise"))
+with(d, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="lightcoral"))
+with(d, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="lightsalmon"))
 dev.off()
