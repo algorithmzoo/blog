@@ -1,27 +1,29 @@
 # R version: 2.12.2
 # Data Source: http://finance.yahoo.com
-# Symbol: ^RUT
+# Symbol: ^GSPC, ^TNX
 # please send feedback to milktrader@gmail.com 
 
 # source the future() function
 
 source("future.r")
 
-# index out event
+# index out event, merge and create normalized vector
 
-future(sym="^RUT")
-R       <- sym.future.returns
-r       <- R[R$RET > .04 & R$MON == 1]
-rr      <- na.omit(r)
-rr$ans  <- 685 + (685*rr$in.4)
+future()
+S      <- sym.future.returns
+future("^TNX")
+T       <- sym.future.returns
+t       <- T[exp(T$ago.5 + T$ago.4 + T$ago.3 + T$ago.2 + T$ago.1) -1  > 0.02]
+St      <- merge(S, t, all=F)
+St$ans  <- 1195 + (1195 * St$in.30)
 
 # prepare the plot
 
-d       <- density(rr$ans)
-max     <- 845
-min     <- 560
-less    <- 685
-more    <- 685
+d       <- density(na.omit(St$ans))
+max     <- 1600
+min     <- 800
+more    <- 1195
+less    <- 1195
 x1      <- min(which(d$x >= more))  
 x2      <- max(which(d$x <  max))
 x3      <- min(which(d$x >= min))  
@@ -29,8 +31,8 @@ x4      <- max(which(d$x <  less))
 
 # plot and save
 
-png("path/to/my_directory/my_file.png")
-plot(d, main="", yaxt='n', xlab="Oct 14, 2011", ylab="")
-with(d, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="lightcoral"))
-with(d, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="lightsalmon"))
+png("/path/to/my_file.png")
+plot(d, main="", yaxt='n', xlab="Nov 22, 2011", ylab="")
+with(d, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="darkkhaki"))
+with(d, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod"))
 dev.off()
