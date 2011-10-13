@@ -1,2 +1,5 @@
-Data for this is from yahoo finance under the TNX symbol (which needs to be entered as ^TNX)
+This includes 700 data points and from the tail on the right, 
+it looks like really knew how to rally this thing in the olde (sic)
+days.
+
 

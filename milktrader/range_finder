@@ -1,0 +1,2 @@
+x <- runMax(Hi(x),7)/runMin(Lo(x),7) - 1
+

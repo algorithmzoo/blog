@@ -1,35 +1,41 @@
 # R version: 2.12.2
 # Data Source: http://finance.yahoo.com
-# Symbol:  ^TNX
+# Symbol: ^DJI 
 # please send feedback to milktrader@gmail.com 
 
 # source the future() function
 
 source("future.r")
 
-# index out event and create normalized vector
+# prepare data
 
-future("^TNX")
-T     <- sym.future.returns
-t     <- T[exp(T$ret + T$ago.1 + T$ago.2 + T$ago.3 + T$ago.4) - 1  > .12]
-t$ans <- 21.60 + (21.60 * t$in.5)
+future(sym="^DJI", src="yahoo")
+D       <- sym.future.returns
+readLines("range_finder")
+D$range <- runMax(Hi(D),7)/runMin(Lo(D),7) - 1
+
+# index out and normalize
+
+d       <- D[D$range > .12]
+d$ans   <- 11518 + (11518 * d$in.30)
 
 # prepare the plot
 
-d     <- density(na.omit(t$ans))
-max   <- 26
-min   <- 16
-more  <- 21.6
-less  <- 21.6
-x1    <- min(which(d$x >= more))
-x2    <- max(which(d$x <  max))
-x3    <- min(which(d$x >= min))
-x4    <- max(which(d$x <  less))
-  
-# plot and save
+dens    <- density(na.omit(d$ans))
+max     <- 28000
+more    <- 11518
+less    <- 11518
+min     <- 5000
+x1      <- min(which(dens$x >= more))
+x1      <- min(which(dens$x >= more))
+x2      <- max(which(dens$x <  max))
+x3      <- min(which(dens$x >= min))
+x4      <- max(which(dens$x <  less))
+
+# plot and save 
 
 png("path/to/file.png")
-plot(d, main="", yaxt='n', xlab="Oct 18, 2011", ylab="")
-with(d, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="lightskyblue"))
-with(d, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="lightskyblue3"))
+plot(dens, main="", xlab="Nov 23, 2011", ylab="", yaxt='n')
+with(dens, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="darkorange"))
+with(dens, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="darkorange4"))
 dev.off()

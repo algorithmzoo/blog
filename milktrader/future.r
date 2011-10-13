@@ -1,8 +1,8 @@
-future <- function(sym="^GSPC"){
+future <- function(sym="^GSPC", src="yahoo"){
 	
 	require("quantmod")
 	
-	x          <- getSymbols(sym, from="1900-01-01",  auto.assign=FALSE)                   
+	x          <- getSymbols(sym, src=src, from="1900-01-01",  auto.assign=FALSE)                   
 	x          <- na.omit(x)
 	x$ret      <- dailyReturn(Cl(x), type="log")                           
 	x$RET      <- dailyReturn(Cl(x))
