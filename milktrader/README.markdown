@@ -1,4 +1,3 @@
-Returns of greater than 5.5% are not all that common. 
-The first event was in 1962. 
-This past week was the second occurrence this year. 
-
+This is past expiration behavior plotted around Sep 16, 2011.
+Data goes back to 2000 and the plot shows where the SET value is
+relative to the high and low. 

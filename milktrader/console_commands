@@ -1,42 +1,59 @@
 # R version: 2.12.2
 # Data Source: http://finance.yahoo.com
-# Symbol: ^GSPC
+# Data Source: scraping of http://CBOE.com for expiration data
+# Symbol: ^GSPC, SET
 # please send feedback to milktrader@gmail.com 
 
-# unused expiration friday prep
-# ex <- as.xts(read.zoo("expiry", sep=",", format="%Y-%m-%d"))
-
-# get data and add vectors
+# get data and add filtering vector
 
 getSymbols("^GSPC", from="1900-01-01")
-G       <- GSPC
-g       <- to.weekly(G)
-g$RET   <- dailyReturn(g)
-g$ans   <- lag(g$RET, k=-1)
-g$plot  <- 1224 + (1224 * g$ans)
+G             <- GSPC
+set           <- as.xts(read.zoo("expiry", sep=",", skip=1, format="%Y-%m-%d"))
+Gset          <- merge(G, set, all=F)
+Gset$surprise <- ifelse(Gset$set > Gset$GSPC.High, 1, ifelse(Gset$set < Gset$GSPC.Low, -1, 0))
 
-# index out event
+# index out event and normalize for plot
 
-gg      <-  g[g$RET > .055]
+over          <- Gset[Gset$surprise == 1]
+under         <- Gset[Gset$surprise == -1]
+inside        <- Gset[Gset$surprise == 0]
+over$per      <- over$set / Hi(over)
+over$plot     <- 1220.06 * over$per
+under$per     <- under$set /  Lo(under) 
+under$plot    <- 1204.46 * under$per
+inside$per    <- (inside$set - Lo(inside)) / (Hi(inside) - Lo(inside))
+inside$plot   <- 1204.46 + (inside$per * 15.6)
 
-#prepare plot
+# prepare for row binding and row bind
 
-gen     <- density(na.omit(gg$plot))
-max     <- 1300
-min     <- 1000
-more    <- 1224
-less    <- 1224
-x1      <- min(which(gen$x >= more))
-x2      <- max(which(gen$x <  max))
-x3      <- min(which(gen$x >= min))
-x4      <- max(which(gen$x <  less))
+OVER          <- over$plot
+UNDER         <- under$plot
+INSIDE        <- inside$plot
+PLOT          <- rbind(OVER, UNDER, INSIDE)
+
+# prepare the plot
+
+dens          <- density(PLOT)
+max           <- 1240
+min           <- 1190
+less          <- 1204.46
+more          <- 1220.06
+x1            <- min(which(dens$x >= more))
+x2            <- max(which(dens$x <  max))
+x3            <- min(which(dens$x >= min))
+x4            <- max(which(dens$x <  less))
+x5            <- min(which(dens$x >= less))
+x6            <- max(which(dens$x < more))
 
 # plot and save
 
 png("path/to/file.png")
-plot(gen, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
-with(gen, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
-with(gen, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
-text(1190, .002, "11", cex=1.5)
-text(1250, .002, "19", cex=1.5)
+plot(dens, xlab="Sep 16, 2011", main="", ylab="", yaxt="n")
+with(dens, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod4"))
+with(dens, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
+with(dens, polygon(x=c(x[c(x5,x5:x6,x6)]), y= c(0, y[x5:x6], 0), col="goldenrod"))
+text(1201, .002, "8", cex=1.5)
+text(1213, .002, "107", cex=1.5)
+text(1224, .002, "26", cex=1.5)
 dev.off()
+
