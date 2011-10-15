@@ -1,41 +1,42 @@
 # R version: 2.12.2
 # Data Source: http://finance.yahoo.com
-# Symbol: ^DJI 
+# Symbol: ^GSPC
 # please send feedback to milktrader@gmail.com 
 
-# source the future() function
+# unused expiration friday prep
+# ex <- as.xts(read.zoo("expiry", sep=",", format="%Y-%m-%d"))
 
-source("future.r")
+# get data and add vectors
 
-# prepare data
+getSymbols("^GSPC", from="1900-01-01")
+G       <- GSPC
+g       <- to.weekly(G)
+g$RET   <- dailyReturn(g)
+g$ans   <- lag(g$RET, k=-1)
+g$plot  <- 1224 + (1224 * g$ans)
 
-future(sym="^DJI", src="yahoo")
-D       <- sym.future.returns
-readLines("range_finder")
-D$range <- runMax(Hi(D),7)/runMin(Lo(D),7) - 1
+# index out event
 
-# index out and normalize
+gg      <-  g[g$RET > .055]
 
-d       <- D[D$range > .12]
-d$ans   <- 11518 + (11518 * d$in.30)
+#prepare plot
 
-# prepare the plot
+gen     <- density(na.omit(gg$plot))
+max     <- 1300
+min     <- 1000
+more    <- 1224
+less    <- 1224
+x1      <- min(which(gen$x >= more))
+x2      <- max(which(gen$x <  max))
+x3      <- min(which(gen$x >= min))
+x4      <- max(which(gen$x <  less))
 
-dens    <- density(na.omit(d$ans))
-max     <- 28000
-more    <- 11518
-less    <- 11518
-min     <- 5000
-x1      <- min(which(dens$x >= more))
-x1      <- min(which(dens$x >= more))
-x2      <- max(which(dens$x <  max))
-x3      <- min(which(dens$x >= min))
-x4      <- max(which(dens$x <  less))
-
-# plot and save 
+# plot and save
 
 png("path/to/file.png")
-plot(dens, main="", xlab="Nov 23, 2011", ylab="", yaxt='n')
-with(dens, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="darkorange"))
-with(dens, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="darkorange4"))
+plot(gen, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
+with(gen, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
+with(gen, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
+text(1190, .002, "11", cex=1.5)
+text(1250, .002, "19", cex=1.5)
 dev.off()
