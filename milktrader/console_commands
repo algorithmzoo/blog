@@ -27,9 +27,9 @@ s      <- 1224.58
 t      <- 2.23
 v      <- 28.24
 
-spx    <- s + (s * baggy$in.10)
-tnx    <- t + (t * baggy$in.10.1)
-vix    <- v + (v * baggy$in.10.2)
+spx    <- s + (s * baggy$in.5)
+tnx    <- t + (t * baggy$in.5.1)
+vix    <- v + (v * baggy$in.5.2)
 
 # prepare the plot densities
 
@@ -96,8 +96,8 @@ png("path/to/file.png")
 plot(ven, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
 with(ven, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="indianred"))
 with(ven, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="lightgreen"))
-text(23, .01, "37", cex=0.75)
-text(35, .01, "41", cex=0.75)
+text(25, .01, "37", cex=0.75)
+text(32, .01, "41", cex=0.75)
 dev.off()
 
 
