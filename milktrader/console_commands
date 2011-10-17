@@ -1,59 +1,102 @@
 # R version: 2.12.2
 # Data Source: http://finance.yahoo.com
 # Data Source: scraping of http://CBOE.com for expiration data
-# Symbol: ^GSPC, SET
+# Symbol: ^GSPC, ^VIX, ^TNX 
 # please send feedback to milktrader@gmail.com 
 
-# get data and add filtering vector
+# source future.r
 
-getSymbols("^GSPC", from="1900-01-01")
-G             <- GSPC
-set           <- as.xts(read.zoo("expiry", sep=",", skip=1, format="%Y-%m-%d"))
-Gset          <- merge(G, set, all=F)
-Gset$surprise <- ifelse(Gset$set > Gset$GSPC.High, 1, ifelse(Gset$set < Gset$GSPC.Low, -1, 0))
+source("future.r")
+
+# get data and merge
+
+future(sym="^GSPC")
+S      <- sym.future.returns
+future(sym="^TNX")
+T      <- sym.future.returns
+future(sym="^VIX")
+V      <- sym.future.returns
+
+bag    <- merge(S, T, V, all=F)	
+baggy  <- bag[bag$in.5 > .055]
 
 # index out event and normalize for plot
 
-over          <- Gset[Gset$surprise == 1]
-under         <- Gset[Gset$surprise == -1]
-inside        <- Gset[Gset$surprise == 0]
-over$per      <- over$set / Hi(over)
-over$plot     <- 1220.06 * over$per
-under$per     <- under$set /  Lo(under) 
-under$plot    <- 1204.46 * under$per
-inside$per    <- (inside$set - Lo(inside)) / (Hi(inside) - Lo(inside))
-inside$plot   <- 1204.46 + (inside$per * 15.6)
+s      <- 1224.58
+t      <- 2.23
+v      <- 28.24
 
-# prepare for row binding and row bind
+spx    <- s + (s * baggy$in.10)
+tnx    <- t + (t * baggy$in.10.1)
+vix    <- v + (v * baggy$in.10.2)
 
-OVER          <- over$plot
-UNDER         <- under$plot
-INSIDE        <- inside$plot
-PLOT          <- rbind(OVER, UNDER, INSIDE)
+# prepare the plot densities
 
-# prepare the plot
+sen    <- density(na.omit(spx))
+ten    <- density(na.omit(tnx))
+ven    <- density(na.omit(vix))
 
-dens          <- density(PLOT)
-max           <- 1240
-min           <- 1190
-less          <- 1204.46
-more          <- 1220.06
-x1            <- min(which(dens$x >= more))
-x2            <- max(which(dens$x <  max))
-x3            <- min(which(dens$x >= min))
-x4            <- max(which(dens$x <  less))
-x5            <- min(which(dens$x >= less))
-x6            <- max(which(dens$x < more))
+# spx plot variables
 
-# plot and save
+more   <- 1224.58
+less   <- more
+max    <- 1600
+min    <- 1100
+x1     <- min(which(sen$x >= more))
+x2     <- max(which(sen$x <  max))
+x3     <- min(which(sen$x >= min))
+x4     <- max(which(sen$x <  less))
+
+# plot spx
 
 png("path/to/file.png")
-plot(dens, xlab="Sep 16, 2011", main="", ylab="", yaxt="n")
-with(dens, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod4"))
-with(dens, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
-with(dens, polygon(x=c(x[c(x5,x5:x6,x6)]), y= c(0, y[x5:x6], 0), col="goldenrod"))
-text(1201, .002, "8", cex=1.5)
-text(1213, .002, "107", cex=1.5)
-text(1224, .002, "26", cex=1.5)
+plot(sen, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
+with(sen, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
+with(sen, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
+text(1213, .0002, "2", cex=.75)
+text(1350, .0002, "76", cex=.75)
 dev.off()
+
+
+# tnx plot variables
+
+more    <- 2.23
+less    <- more
+max     <- 2.9
+min     <- 1.5
+x1      <- min(which(ten$x >= more))
+x2      <- max(which(ten$x <  max))
+x3      <- min(which(ten$x >= min))
+x4      <- max(which(ten$x <  less))
+
+# plot tnx
+
+png("path/to/file.png")
+plot(ten, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
+with(ten, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="skyblue"))
+with(ten, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="skyblue4"))
+text(2.1, .2, "36", cex=0.75)
+text(2.5, .2, "41", cex=0.75)
+dev.off()
+
+# vix plot variables
+
+more    <- 28.24
+less    <- more
+max     <- 35
+min     <- 15 
+x1      <- min(which(ven$x >= more))
+x2      <- max(which(ven$x <  max))
+x3      <- min(which(ven$x >= min))
+x4      <- max(which(ven$x <  less))
+
+# plot vix 
+png("path/to/file.png")
+plot(ven, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
+with(ven, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="indianred"))
+with(ven, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="lightgreen"))
+text(23, .01, "69", cex=0.75)
+text(30, .01, "9", cex=0.75)
+dev.off()
+
 
