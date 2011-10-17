@@ -18,7 +18,8 @@ future(sym="^VIX")
 V      <- sym.future.returns
 
 bag    <- merge(S, T, V, all=F)	
-baggy  <- bag[bag$in.5 > .055]
+baggy  <- bag[exp(bag$ret + bag$ago.1 + bag$ago.2 + bag$ago.3 + bag$ago.4) -1 > .055]
+#baggy  <- bag[bag$in.5 > .055]
 
 # index out event and normalize for plot
 
@@ -41,7 +42,7 @@ ven    <- density(na.omit(vix))
 more   <- 1224.58
 less   <- more
 max    <- 1600
-min    <- 1100
+min    <- 1000
 x1     <- min(which(sen$x >= more))
 x2     <- max(which(sen$x <  max))
 x3     <- min(which(sen$x >= min))
@@ -49,12 +50,12 @@ x4     <- max(which(sen$x <  less))
 
 # plot spx
 
-png("path/to/file.png")
+png("path/ls()/file.png")
 plot(sen, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
 with(sen, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
 with(sen, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
-text(1213, .0002, "2", cex=.75)
-text(1350, .0002, "76", cex=.75)
+text(1150, .0002, "25", cex=.75)
+text(1300, .0002, "53", cex=.75)
 dev.off()
 
 
@@ -75,15 +76,15 @@ png("path/to/file.png")
 plot(ten, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
 with(ten, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="skyblue"))
 with(ten, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="skyblue4"))
-text(2.1, .2, "36", cex=0.75)
-text(2.5, .2, "41", cex=0.75)
+text(2.1, .2, "38", cex=0.75)
+text(2.35, .2, "38", cex=0.75)
 dev.off()
 
 # vix plot variables
 
 more    <- 28.24
 less    <- more
-max     <- 35
+max     <- 47
 min     <- 15 
 x1      <- min(which(ven$x >= more))
 x2      <- max(which(ven$x <  max))
@@ -95,8 +96,8 @@ png("path/to/file.png")
 plot(ven, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
 with(ven, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="indianred"))
 with(ven, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="lightgreen"))
-text(23, .01, "69", cex=0.75)
-text(30, .01, "9", cex=0.75)
+text(23, .01, "37", cex=0.75)
+text(35, .01, "41", cex=0.75)
 dev.off()
 
 

@@ -1,3 +1,6 @@
-Here we observe SPX returns five days after a 5-day 5.5% rally.
+This is meant to correct some egregious errors in an previous attempt. 
+That has been taken down from the website, but of course is committed 
+here on git. 
 
-Also attached are same period VIX and TNX returns.
+Breadcrumbs are the trail. 
+
