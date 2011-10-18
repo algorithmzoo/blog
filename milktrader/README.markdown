@@ -1,6 +1,3 @@
-This is meant to correct some egregious errors in an previous attempt. 
-That has been taken down from the website, but of course is committed 
-here on git. 
-
-Breadcrumbs are the trail. 
-
+Options expiration is an interesting time. Out of 140 data points, only
+12 of those had a big sell off on a Monday. It's an interesting distribution
+but pretty much says that it's a coin flip

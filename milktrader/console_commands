@@ -1,103 +1,45 @@
 # R version: 2.12.2
 # Data Source: http://finance.yahoo.com
 # Data Source: scraping of http://CBOE.com for expiration data
-# Symbol: ^GSPC, ^VIX, ^TNX 
+# Symbol: ^GSPC, SET	 
 # please send feedback to milktrader@gmail.com 
 
-# source future.r
+# source 
 
-source("future.r")
+source("wasin.r")
 
 # get data and merge
 
-future(sym="^GSPC")
-S      <- sym.future.returns
-future(sym="^TNX")
-T      <- sym.future.returns
-future(sym="^VIX")
-V      <- sym.future.returns
-
-bag    <- merge(S, T, V, all=F)	
-baggy  <- bag[exp(bag$ret + bag$ago.1 + bag$ago.2 + bag$ago.3 + bag$ago.4) -1 > .055]
-#baggy  <- bag[bag$in.5 > .055]
+wasin(sym="^GSPC")
+S      <- fat.data 
+ex     <- as.xts(read.zoo("expiry", sep=",", format="%Y-%m-%d"))
+B      <- merge(S, ex, all=F)
 
 # index out event and normalize for plot
 
-s      <- 1224.58
-t      <- 2.23
-v      <- 28.24
+b      <- B[B$ago.4 < -0.018]
 
-spx    <- s + (s * baggy$in.5)
-tnx    <- t + (t * baggy$in.5.1)
-vix    <- v + (v * baggy$in.5.2)
+b$ans  <- exp(b$ago.3 + b$ago.2 + b$ago.1 + b$ret) - 1
+spx    <- 1200
+b$plot <- spx + (spx * b$ans)
+sen    <- density(b$plot)
 
-# prepare the plot densities
-
-sen    <- density(na.omit(spx))
-ten    <- density(na.omit(tnx))
-ven    <- density(na.omit(vix))
-
-# spx plot variables
-
-more   <- 1224.58
+more   <- spx
 less   <- more
 max    <- 1600
 min    <- 1000
+
 x1     <- min(which(sen$x >= more))
 x2     <- max(which(sen$x <  max))
 x3     <- min(which(sen$x >= min))
 x4     <- max(which(sen$x <  less))
 
 # plot spx
-
-png("path/ls()/file.png")
+png("~/octozoo/octopress/source/images/spx20111021c.png")
 plot(sen, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
 with(sen, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
 with(sen, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
-text(1150, .0002, "25", cex=.75)
-text(1300, .0002, "53", cex=.75)
+text(1150, .0002, "7", cex=.75)
+text(1300, .0002, "5", cex=.75)
 dev.off()
-
-
-# tnx plot variables
-
-more    <- 2.23
-less    <- more
-max     <- 2.9
-min     <- 1.5
-x1      <- min(which(ten$x >= more))
-x2      <- max(which(ten$x <  max))
-x3      <- min(which(ten$x >= min))
-x4      <- max(which(ten$x <  less))
-
-# plot tnx
-
-png("path/to/file.png")
-plot(ten, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
-with(ten, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="skyblue"))
-with(ten, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="skyblue4"))
-text(2.1, .2, "38", cex=0.75)
-text(2.35, .2, "38", cex=0.75)
-dev.off()
-
-# vix plot variables
-
-more    <- 28.24
-less    <- more
-max     <- 47
-min     <- 15 
-x1      <- min(which(ven$x >= more))
-x2      <- max(which(ven$x <  max))
-x3      <- min(which(ven$x >= min))
-x4      <- max(which(ven$x <  less))
-
-# plot vix 
-png("path/to/file.png")
-plot(ven, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
-with(ven, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="indianred"))
-with(ven, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="lightgreen"))
-text(25, .01, "37", cex=0.75)
-text(32, .01, "41", cex=0.75)
-dev.off()
-
 
