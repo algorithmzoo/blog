@@ -40,6 +40,6 @@ plot(sen, xlab="Oct 21, 2011", ylab="", main="", yaxt="n")
 with(sen, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
 with(sen, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
 text(1150, .0002, "7", cex=.75)
-text(1300, .0002, "5", cex=.75)
+text(1250, .0002, "5", cex=.75)
 dev.off()
 
