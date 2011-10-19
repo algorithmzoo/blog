@@ -1,3 +1,2 @@
-Crude oil rallies are bullish of equities, if only for the fact that
-there is an expectation of a robust industrial environment that will
-need energy. 
+Four days of up and down with each day's return greater than 1% is rare. 
+Next day selloffs are shallow. 	
