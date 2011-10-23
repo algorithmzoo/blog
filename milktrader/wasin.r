@@ -51,7 +51,7 @@ wasin <- function(sym="^GSPC"){
 	x$ago.29   <- lag(x$ret, k=29)   
 	x$ago.30   <- lag(x$ret, k=30)
 	   
-  x$AGO.1    <- lag(x$RET, k=1)           
+        x$AGO.1    <- lag(x$RET, k=1)           
 	x$AGO.2    <- lag(x$RET, k=2)           
 	x$AGO.3    <- lag(x$RET, k=3)           
 	x$AGO.4    <- lag(x$RET, k=4)   
@@ -82,7 +82,7 @@ wasin <- function(sym="^GSPC"){
 	x$AGO.29   <- lag(x$RET, k=29)   
 	x$AGO.30   <- lag(x$RET, k=30)
 	
-	next.1    <- lag(x$ret, k=-1)           
+	x$next.1    <- lag(x$ret, k=-1)           
 	next.2    <- lag(x$ret, k=-2)           
 	next.3    <- lag(x$ret, k=-3)           
 	next.4    <- lag(x$ret, k=-4)     
@@ -91,16 +91,16 @@ wasin <- function(sym="^GSPC"){
 	next.7    <- lag(x$ret, k=-7)     
 	next.8    <- lag(x$ret, k=-8)     
 	next.9    <- lag(x$ret, k=-9)     
-	next.10   <- lag(x$ret, k=-10)      
-	next.11   <- lag(x$ret, k=-11)      
-	next.12   <- lag(x$ret, k=-12)      
-	next.13   <- lag(x$ret, k=-13)      
-	next.14   <- lag(x$ret, k=-14)      
-	next.15   <- lag(x$ret, k=-15)      
-	next.16   <- lag(x$ret, k=-16)      
-	next.17   <- lag(x$ret, k=-17)      
-	next.18   <- lag(x$ret, k=-18)      
-	next.19   <- lag(x$ret, k=-19)      
+	x$next.10   <- lag(x$ret, k=-10)      
+	x$next.11   <- lag(x$ret, k=-11)      
+	x$next.12   <- lag(x$ret, k=-12)      
+	x$next.13   <- lag(x$ret, k=-13)      
+	x$next.14   <- lag(x$ret, k=-14)      
+	x$next.15   <- lag(x$ret, k=-15)      
+	x$next.16   <- lag(x$ret, k=-16)      
+	x$next.17   <- lag(x$ret, k=-17)      
+	x$next.18   <- lag(x$ret, k=-18)      
+	x$next.19   <- lag(x$ret, k=-19)      
 	next.20   <- lag(x$ret, k=-20)      
 	next.21   <- lag(x$ret, k=-21)      
 	next.22   <- lag(x$ret, k=-22)      
@@ -130,17 +130,17 @@ wasin <- function(sym="^GSPC"){
                                x$ago.21 + x$ago.22 + x$ago.23 + x$ago.24 + x$ago.25 + x$ago.26 + x$ago.27 + x$ago.28 + x$ago.29 + x$ago.30)-1                 
  
   
-	x$IN.2     <-     exp(x$ret + next.1)-1
-        x$IN.3     <-     exp(x$ret + next.1 + next.2)-1
-        x$IN.4     <-     exp(x$ret + next.1 + next.2 + next.3)-1
-        x$IN.5     <-     exp(x$ret + next.1 + next.2 + next.3 + next.4)-1                 
-        x$IN.6     <-     exp(x$ret + next.1 + next.2 + next.3 + next.4 + next.5)-1                 
-        x$IN.7     <-     exp(x$ret + next.1 + next.2 + next.3 + next.4 + next.5 + next.6)-1                 
-        x$IN.8     <-     exp(x$ret + next.1 + next.2 + next.3 + next.4 + next.5 + next.6 + next.7)-1                 
-        x$IN.9     <-     exp(x$ret + next.1 + next.2 + next.3 + next.4 + next.5 + next.6 + next.7 + next.8)-1                 
-        x$IN.10    <-     exp(x$ret + next.1 + next.2 + next.3 + next.4 + next.5 + next.6 + next.7 + next.8 + next.9)-1                
-        x$IN.30    <-     exp(x$ret + next.1 + next.2 + next.3 + next.4 + next.5 + next.6 + next.7 + next.8 + next.9 + next.10 +                
-                                    next.11 + next.12 + next.13 + next.14 + next.15 + next.16 + next.17 + next.18 + next.19 + next.20 +               
+	x$IN.2     <-     exp(x$ret + x$next.1)-1
+        x$IN.3     <-     exp(x$ret + x$next.1 + next.2)-1
+        x$IN.4     <-     exp(x$ret + x$next.1 + next.2 + next.3)-1
+        x$IN.5     <-     exp(x$ret + x$next.1 + next.2 + next.3 + next.4)-1                 
+        x$IN.6     <-     exp(x$ret + x$next.1 + next.2 + next.3 + next.4 + next.5)-1                 
+        x$IN.7     <-     exp(x$ret + x$next.1 + next.2 + next.3 + next.4 + next.5 + next.6)-1                 
+        x$IN.8     <-     exp(x$ret + x$next.1 + next.2 + next.3 + next.4 + next.5 + next.6 + next.7)-1                 
+        x$IN.9     <-     exp(x$ret + x$next.1 + next.2 + next.3 + next.4 + next.5 + next.6 + next.7 + next.8)-1                 
+        x$IN.10    <-     exp(x$ret + x$next.1 + next.2 + next.3 + next.4 + next.5 + next.6 + next.7 + next.8 + next.9)-1                
+        x$IN.30    <-     exp(x$ret + x$next.1 + next.2 + next.3 + next.4 + next.5 + next.6 + next.7 + next.8 + next.9 + x$next.10 +                
+                                    x$next.11 + x$next.12 + x$next.13 + x$next.14 + x$next.15 + x$next.16 + x$next.17 + x$next.18 + x$next.19 + next.20 +               
                                     next.21 + next.22 + next.23 + next.24 + next.25 + next.26 + next.27 + next.28 + next.29  )-1                 
 
         assign("fat.data", x, envir=.GlobalEnv)
