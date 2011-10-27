@@ -2,33 +2,32 @@
 # quantmod 0.3-16
 # Data Source: http://finance.yahoo.com
 # Data Source: http://cboe.com (manually scraped)
-# Symbol: ^GSPC SET
+# Symbol: ^RUT	
 # please send feedback to milktrader@gmail.com 
 
 # source 
 
 source("wasin.r")
 
-# get data and merge
+# get data 
 
 wasin()
-exp        <- as.xts(read.zoo("expiry", sep=",", format="%Y-%m-%d"))
-FE         <- merge(fat.data, exp, all=F)
 
-# index out event and normalize for plot
+# index out event, normalize for plot and define some variables
 
-fe         <- FE[FE$RET > .01]
-fe$ans     <- exp(fe$next.1) -1
-spx        <- 1238
-fe$plot    <- spx + (spx*fe$ans)
+r          <- fat.data[fat.data$WAS.1 > .05]
+rut        <- 765.43 # oct 27 close
+pos        <- nrow(r[r$RET  > 0  ])
+neg        <- nrow(r[r$RET  < 0  ])
+r$plot     <- rut + (rut*r$RET)
 
 # prepare first plot
 
-dens       <- density(na.omit(fe$plot))
-more       <- spx
+dens       <- density(na.omit(r$plot))
+more       <- rut
 less       <- more
-max        <- 1600
-min        <- 1100
+max        <- 900
+min        <- 700
 x1         <- min(which(dens$x >= more))
 x2         <- max(which(dens$x <  max))
 x3         <- min(which(dens$x >= min))
@@ -36,27 +35,32 @@ x4         <- max(which(dens$x <  less))
 
 # plot
 
-plot(dens, xlab="Oct 24, 2011", ylab="", main="", yaxt="n")
-with(dens, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
-with(dens, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
-text(1250, .001, "4", cex=.75)
-text(1220, .001, "10", cex=.75)
+plot(dens, xlab="Oct 28, 2011", ylab="", main="", yaxt="n")
+with(dens, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="khaki"))
+with(dens, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="khaki4"))
+text(rut + 10, .0005, pos, cex=.75)
+text(rut - 10, .0005, neg , cex=.75)
+# text(779, .002,  "↓", cex=1.3) #location determined at the close 
 
 #############
 
-               expiry      next day
-2002-03-15 0.01137862 -0.0005230843
-2002-12-20 0.01301668  0.0018085201
-2003-02-21 0.01322423 -0.0183807491
-2003-03-21 0.02297669 -0.0352314717
-2003-04-17 0.01553568 -0.0017569776
-2003-07-18 0.01180569 -0.0146176459
-2007-08-17 0.02456653 -0.0002697207
-2007-12-21 0.01666986  0.0080770112
-2008-03-20 0.02394449  0.0153214342
-2008-04-18 0.01813908 -0.0015535880
-2008-09-19 0.04025661 -0.0382366064
-2008-11-21 0.06324757  0.0647225729
-2009-08-21 0.01862275 -0.0005457398
-2010-05-21 0.01502440 -0.0129080896
-2011-10-21 0.01880878            NA
+1970-05-28  0.025285145
+1987-10-21  0.090993540
+1987-10-22 -0.039205821
+1997-10-29 -0.002918045
+1998-09-09 -0.016864362
+2001-01-04 -0.010552406
+2002-07-25 -0.005631766
+2002-07-30  0.004249355
+2008-10-01 -0.004544052
+2008-10-14 -0.005322171
+2008-10-29 -0.011079095
+2008-11-14 -0.041699130
+2008-11-24  0.064722573
+2008-11-25  0.006550757
+2008-12-17 -0.009592851
+2009-03-11  0.002445803
+2009-03-24 -0.020415107
+2011-10-28           NA 
+
+ 
