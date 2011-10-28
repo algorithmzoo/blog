@@ -11,7 +11,7 @@ wasin <- function(sym="^GSPC"){
 # extras
 	
         x$RET.W    <- weeklyReturn(x)
-#	x$RET.M    <- monthlyReturn(x)
+	x$RET.M    <- monthlyReturn(x)
 	x$MON      <- weekdays(time(x)) == "Monday"
 	x$WED      <- weekdays(time(x)) == "Wednesday"
 	x$FRI      <- weekdays(time(x)) == "Friday"
