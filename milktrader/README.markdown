@@ -1,3 +1,2 @@
-Trailing 15-day returns in SPX. They tend to clump together so
-a little bash scripting will draw out some frequency data on 
-yearly and seasonality (monthly).
+An unusual event such as a monthly return of over 10% yields surprisingly
+normal distribution for next month's returns. Random walk demonstration. 
