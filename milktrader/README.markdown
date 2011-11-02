@@ -1,2 +1,3 @@
-An unusual event such as a monthly return of over 10% yields surprisingly
-normal distribution for next month's returns. Random walk demonstration. 
+Taking a look at the spread between 10s and 2s. 
+Dolphins and baracudas.
+Dolphins rule the tank 84% of the time.

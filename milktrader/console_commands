@@ -1,57 +1,62 @@
 # R 2.12.2
 # quantmod 0.3-16
-# Data Source: http://finance.yahoo.com
-# Symbol: ^GSPC 
+# GNU bash, version 3.2.48(1)-release
+# Data Source: http://research.stlouisfed.org
+# Symbol: DGS10, DGS2
 # please send feedback to milktrader@gmail.com 
 
 # get data 
 
-getSymbols("^GSPC", from="1900-01-01")
+getSymbols("DGS10;DGS2",src="FRED")
 
-G          <- to.monthly(GSPC)
-S          <- monthlyReturn(G)
-S$IN.1     <- lag(S$monthly.returns, k=-1)
+# merge and index out event
 
-# index out event, normalize for plot and define some variables
+DD        <- merge(DGS10, DGS2, all=F)
+DD$ans    <- ifelse(DD$DGS10 < DD$DGS2, 1, 0)
+dd        <- DD[DD$ans == 1]
+freq      <- nrow(dd)/nrow(DD)
 
-s          <- S[S$monthly.returns > .1]
-spx        <- 1253.30 #close on the last day of last month == 10/31/2011
-pos        <- nrow(s[s$IN.1 > 0  ])
-neg        <- nrow(s[s$IN.1 < 0  ])
-s$plot     <- spx + (spx*s$IN.1)
-# prepare first plot
+# send file to bash script manipulation
 
-dens       <- density(na.omit(s$plot))
-more       <- spx
-less       <- more
-max        <- 1600
-min        <- 1000
-x1         <- min(which(dens$x >= more))
-x2         <- max(which(dens$x <  max))
-x3         <- min(which(dens$x >= min))
-x4         <- max(which(dens$x <  less))
+write.zoo(dd, "mud")
+
+# read file in 
+
+clean    <- read.table("clean")
 
 # plot
 
-plot(dens, xlab="Nov 30, 2011", ylab="", main="", yaxt="n")
-with(dens, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
-with(dens, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
-text(spx + 10, .0005, pos, cex=.75)
-text(spx - 10, .0005, neg , cex=.75)
-# text(1300, .002,  "↓", cex=1.3) #location determined at the close 
+barplot(clean$V2, horiz=TRUE, xaxp=c(0,260,13), 
+        names.arg=c("1978", "1979","1980","1981", 
+                    "1982", "1988","1989","1990", 
+                    "1998", "2000","2005","2006", 
+                    "2007"), las=1, col="skyblue4")
+
 
 # data for the plot
 
 
-
-Nov 1962       0.1015570  0.013491809 
-Oct 1974       0.1630469 -0.053179973 
-Jan 1975       0.1228121  0.059885685 
-Jan 1976       0.1183058 -0.011401943 
-Nov 1980       0.1023770 -0.033874182 
-Aug 1982       0.1159772  0.007614426 
-Oct 1982       0.1104468  0.035970685 
-Aug 1984       0.1063321 -0.003479722 
-Jan 1987       0.1317669  0.036923526 
-Dec 1991       0.1115879 -0.019923757 
-Oct 2011       0.1077230           NA 
+           DGS10 DGS2 
+1978-08-18  8.46 8.50 
+1978-08-21  8.41 8.47 
+1978-08-22  8.41 8.47 
+1978-08-23  8.32 8.42 
+1978-08-24  8.35 8.41 
+1978-08-25  8.34 8.41 
+1978-08-28  8.35 8.41 
+1978-08-29  8.37 8.44 
+1978-08-30  8.42 8.48 
+1978-08-31  8.39 8.46 
+.                     
+.                     
+.                     
+2007-05-15  4.71 4.75 
+2007-05-16  4.71 4.73 
+2007-05-17  4.76 4.78 
+2007-05-18  4.81 4.82 
+2007-05-21  4.79 4.81 
+2007-05-30  4.88 4.89 
+2007-05-31  4.90 4.92 
+2007-06-01  4.95 4.97 
+2007-06-04  4.93 4.97 
+2007-06-05  4.98 4.99 
