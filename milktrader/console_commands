@@ -1,62 +1,70 @@
 # R 2.12.2
 # quantmod 0.3-16
 # GNU bash, version 3.2.48(1)-release
-# Data Source: http://research.stlouisfed.org
-# Symbol: DGS10, DGS2
+# Data Source: http://yahoo.finance.com	
+# Symbol: ^GSPC, ^RUT
 # please send feedback to milktrader@gmail.com 
 
 # get data 
 
-getSymbols("DGS10;DGS2",src="FRED")
+getSymbols("^GSPC;^RUT", from="1987-01-01")
 
-# merge and index out event
+# add returns and merge 
 
-DD        <- merge(DGS10, DGS2, all=F)
-DD$ans    <- ifelse(DD$DGS10 < DD$DGS2, 1, 0)
-dd        <- DD[DD$ans == 1]
-freq      <- nrow(dd)/nrow(DD)
+G         <- dailyReturn(GSPC)
+R         <- dailyReturn(RUT)
+GR        <- merge(G, R, all=F)
+GR$spd    <- GR[,1] - GR[,2]
 
-# send file to bash script manipulation
+# send it to bash
 
-write.zoo(dd, "mud")
+spx       <- GR[GR$spd > 0]
+rut       <- GR[GR$spd < 0]
 
-# read file in 
+write.zoo(spx, "spx")
+write.zoo(rut, "rut")
 
-clean    <- read.table("clean")
+# import from bash
+
+ss        <- read.table("spx.done")
+rr        <- read.table("rut.done")
+
+# prepare plot variables
+
+score     <- ss
+score$V3  <- rr$V2
+game      <- score[,c(2,3)]
 
 # plot
 
-barplot(clean$V2, horiz=TRUE, xaxp=c(0,260,13), 
-        names.arg=c("1978", "1979","1980","1981", 
-                    "1982", "1988","1989","1990", 
-                    "1998", "2000","2005","2006", 
-                    "2007"), las=1, col="skyblue4")
+barplot(t(game), horiz=T, names.arg=score$V1, las=1, col=c("goldenrod", "khaki"))
+for(i in 1:nrow(score)) {text(22,(1.2*(i-1) + .6), score$V2[i], cex=.5)}
+for(i in 1:nrow(score)) {text(202,(1.2*(i-1) + .6), score$V3[i], cex=.5)}
 
+# data
 
-# data for the plot
-
-
-           DGS10 DGS2 
-1978-08-18  8.46 8.50 
-1978-08-21  8.41 8.47 
-1978-08-22  8.41 8.47 
-1978-08-23  8.32 8.42 
-1978-08-24  8.35 8.41 
-1978-08-25  8.34 8.41 
-1978-08-28  8.35 8.41 
-1978-08-29  8.37 8.44 
-1978-08-30  8.42 8.48 
-1978-08-31  8.39 8.46 
-.                     
-.                     
-.                     
-2007-05-15  4.71 4.75 
-2007-05-16  4.71 4.73 
-2007-05-17  4.76 4.78 
-2007-05-18  4.81 4.82 
-2007-05-21  4.79 4.81 
-2007-05-30  4.88 4.89 
-2007-05-31  4.90 4.92 
-2007-06-01  4.95 4.97 
-2007-06-04  4.93 4.97 
-2007-06-05  4.98 4.99 
+ year spx rut 
+ 1988 119 134
+ 1989 132 120
+ 1990 135 118
+ 1991 110 143
+ 1992 118 136
+ 1993 120 133
+ 1994 122 130
+ 1995 128 124
+ 1996 125 129
+ 1997 134 119
+ 1998 136 116
+ 1999 117 135
+ 2000 112 140
+ 2001 109 139
+ 2002 125 127
+ 2003 102 150
+ 2004 119 133
+ 2005 125 127
+ 2006 128 123
+ 2007 131 120
+ 2008 119 134
+ 2009 119 133
+ 2010 113 139
+ 2011 106 108

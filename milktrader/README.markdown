@@ -1,3 +1,3 @@
-Taking a look at the spread between 10s and 2s. 
-Dolphins and baracudas.
-Dolphins rule the tank 84% of the time.
+On a daily basis, which index outperforms the next?
+Here, we compare the SPX and RUT, or more precisely:
+Monkeys and Elephants
