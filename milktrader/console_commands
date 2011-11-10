@@ -2,69 +2,60 @@
 # quantmod 0.3-16
 # GNU bash, version 3.2.48(1)-release
 # Data Source: http://yahoo.finance.com	
-# Symbol: ^GSPC, ^RUT
+# Data Source: http://eclipse.gsfc.nasa.gov/phase/phasecat.html
+# Symbol: ^DJI
 # please send feedback to milktrader@gmail.com 
 
-# get data 
+# get bash-processed moon data 
 
-getSymbols("^GSPC;^RUT", from="1987-01-01")
+fullmoon      <- read.table("fullmoon")
+fullmoon$FULL <- 1
+fullmoon$V1   <- as.Date(fullmoon$V1, format="%b-%d-%Y")
+moon          <- as.xts(fullmoon$FULL, order.by=fullmoon$V1)
 
-# add returns and merge 
+# get Dow data from Yahoo
 
-G         <- dailyReturn(GSPC)
-R         <- dailyReturn(RUT)
-GR        <- merge(G, R, all=F)
-GR$spd    <- GR[,1] - GR[,2]
+getSymbols("^DJI", from="1900-01-01")
+DJI          <- DJI[,-c(5,6)]
+DJI$rng      <- (Hi(DJI) - Lo(DJI)) / Op(DJI)
 
-# send it to bash
+# merge and subset Dow and moon data
 
-spx       <- GR[GR$spd > 0]
-rut       <- GR[GR$spd < 0]
+DM           <- merge(DJI, moon)
+MD           <- DM['1928-11-27::2011-11-09']
+md           <- na.omit(MD[MD$moon==1])
+xmd          <- MD[is.na(MD$moon), ]
 
-write.zoo(spx, "spx")
-write.zoo(rut, "rut")
+# create vectors from loop over percentage bins
 
-# import from bash
+not_full     <- vector()
+full         <- vector()
 
-ss        <- read.table("spx.done")
-rr        <- read.table("rut.done")
+for(i in 1:4){not_full[i] <- nrow(xmd[xmd$rng > i*.01])/nrow(xmd)}
+for(i in 1:4){full[i]     <- nrow(md[md$rng > i*.01])/nrow(md)}
 
-# prepare plot variables
+boom         <- cbind(not_full, full)
 
-score     <- ss
-score$V3  <- rr$V2
-game      <- score[,c(2,3)]
+# bar plot
 
-# plot
+barplot(boom, col=c("darkorange", "darkorange4"), yaxt='n')
 
-barplot(t(game), horiz=T, names.arg=score$V1, las=1, col=c("goldenrod", "khaki"))
-for(i in 1:nrow(score)) {text(22,(1.2*(i-1) + .6), score$V2[i], cex=.5)}
-for(i in 1:nrow(score)) {text(202,(1.2*(i-1) + .6), score$V3[i], cex=.5)}
+text(1.9,.5,"Trading range is greater than 1% \n86.8% of the time on trading days \nwith a full moon", cex=.82)
+text(.7,.5,"Trading range (High - Low \nas a percentage of Open) \nis greater than 1% \n87.8% of the time on trading days \nwithout a full moon", cex=.82)
+
+text(1.9,1,"2% or greater 28.9% of the time", cex=.75)
+text(.7,1,"2% or greater 28.5% of the time ", cex=.75)
+
+text(1.9,1.2,"3% or greater 10.1% of the time", cex=.58)
+text(.7,1.2,"3% or greater 9.2% of the time ", cex=.58)
+
+text(1.9,1.27,"4% or greater 4.1% of the time", cex=.45)
+text(.7,1.27,"4% or greater 3.6% of the time ", cex=.45)
 
 # data
 
- year spx rut 
- 1988 119 134
- 1989 132 120
- 1990 135 118
- 1991 110 143
- 1992 118 136
- 1993 120 133
- 1994 122 130
- 1995 128 124
- 1996 125 129
- 1997 134 119
- 1998 136 116
- 1999 117 135
- 2000 112 140
- 2001 109 139
- 2002 125 127
- 2003 102 150
- 2004 119 133
- 2005 125 127
- 2006 128 123
- 2007 131 120
- 2008 119 134
- 2009 119 133
- 2010 113 139
- 2011 106 108
+per    not_full        full     
+.01  0.87825482  0.86760563     
+.02  0.28453588  0.28873239     
+.03  0.09193003  0.10140845     
+.04  0.03572848  0.04084507     
