@@ -1,61 +1,48 @@
 # R 2.12.2
 # quantmod 0.3-16
-# GNU bash, version 3.2.48(1)-release
-# Data Source: http://yahoo.finance.com	
-# Data Source: http://eclipse.gsfc.nasa.gov/phase/phasecat.html
-# Symbol: ^DJI
+# GNU bash, version 3.2.48(1)-release 
+# Data Source: http://finance.yahoo.com
+# Symbol: ^GSPC 
 # please send feedback to milktrader@gmail.com 
 
-# get bash-processed moon data 
+# get data and add vectors
 
-fullmoon      <- read.table("fullmoon")
-fullmoon$FULL <- 1
-fullmoon$V1   <- as.Date(fullmoon$V1, format="%b-%d-%Y")
-moon          <- as.xts(fullmoon$FULL, order.by=fullmoon$V1)
+getSymbols("^GSPC", from="1900-01-01")
+G       <- GSPC
 
-# get Dow data from Yahoo
+# index out November and Wednesday and send to bash
 
-getSymbols("^DJI", from="1900-01-01")
-DJI          <- DJI[,-c(5,6)]
-DJI$rng      <- (Hi(DJI) - Lo(DJI)) / Op(DJI)
+G$RET  <- dailyReturn(Cl(G))
+G$WED  <- weekdays(time(G)) == "Wednesday"
+G$NOV  <- months(time(g)) == "November"
+g      <- G[G$THU==1 & G$NOV==1]
+write.zoo(g, "thanks")
 
-# merge and subset Dow and moon data
+# bring data back with 4th Thursday, merge and subset only returns
 
-DM           <- merge(DJI, moon)
-MD           <- DM['1928-11-27::2011-11-09']
-md           <- na.omit(MD[MD$moon==1])
-xmd          <- MD[is.na(MD$moon), ]
+thanks <- read.zoo("thanksgiving", format="%Y-%m-%d")
+H      <- merge(g, thanks, all=FALSE)
+ans    <- H[,7]
+H$plot <- 1188 + (1188 * H$ans)
 
-# create vectors from loop over percentage bins
+#prepare plot
 
-not_full     <- vector()
-full         <- vector()
+gen     <- density(H$plot))
+max     <- 1300
+min     <- 1000
+more    <- 1188
+less    <- 1188
+x1      <- min(which(gen$x >= more))
+x2      <- max(which(gen$x <  max))
+x3      <- min(which(gen$x >= min))
+x4      <- max(which(gen$x <  less))
 
-for(i in 1:4){not_full[i] <- nrow(xmd[xmd$rng > i*.01])/nrow(xmd)}
-for(i in 1:4){full[i]     <- nrow(md[md$rng > i*.01])/nrow(md)}
+# plot and save
 
-boom         <- cbind(not_full, full)
-
-# bar plot
-
-barplot(boom, col=c("darkorange", "darkorange4"), yaxt='n')
-
-text(1.9,.5,"Trading range is greater than 1% \n86.8% of the time on trading days \nwith a full moon", cex=.82)
-text(.7,.5,"Trading range (High - Low \nas a percentage of Open) \nis greater than 1% \n87.8% of the time on trading days \nwithout a full moon", cex=.82)
-
-text(1.9,1,"2% or greater 28.9% of the time", cex=.75)
-text(.7,1,"2% or greater 28.5% of the time ", cex=.75)
-
-text(1.9,1.2,"3% or greater 10.1% of the time", cex=.58)
-text(.7,1.2,"3% or greater 9.2% of the time ", cex=.58)
-
-text(1.9,1.27,"4% or greater 4.1% of the time", cex=.45)
-text(.7,1.27,"4% or greater 3.6% of the time ", cex=.45)
-
-# data
-
-per    not_full        full     
-.01  0.87825482  0.86760563     
-.02  0.28453588  0.28873239     
-.03  0.09193003  0.10140845     
-.04  0.03572848  0.04084507     
+png("path/to/file.png")
+plot(gen, xlab="Nov 23, 2011", ylab="", main="", yaxt="n")
+with(gen, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
+with(gen, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
+text(1190, .002, "11", cex=1.5)
+text(1250, .002, "19", cex=1.5)
+dev.off()
