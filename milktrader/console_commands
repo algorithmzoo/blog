@@ -39,7 +39,7 @@ plot(gen, xlab="Nov 25, 2011", ylab="", main="", yaxt="n")
 with(gen, polygon(x=c(x[c(x3,x3:x4,x4)]), y= c(0, y[x3:x4], 0), col="goldenrod4"))
 with(gen, polygon(x=c(x[c(x1,x1:x2,x2)]), y= c(0, y[x1:x2], 0), col="goldenrod"))
 text(1155, .002, "15", cex=.7)
-text(1170, .002, "48", cex=.7)
+text(1170, .002, "46", cex=.7)
 dev.off()
 
 
