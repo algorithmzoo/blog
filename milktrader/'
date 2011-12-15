@@ -1,7 +1,7 @@
 Strange thing happened this week. Gold sold off more than 5% and SPX was down.
 
 I have a problem with Gold data in that I only paid for some prop data through
-2010. This means that I needed to search the internet for updated data. I found
+2010. This means that I need to search the internet for updated data. I found
 a site whose data matched my prop data where my prop data ended so I decided
 to scrape it with a python script (included in the directory).
 
