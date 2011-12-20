@@ -1,30 +1,22 @@
-Strange thing happened this week. Gold sold off more than 5% and SPX was down.
+Last post I forgot to update the README. The code and process are pretty 
+straight-forward though. Except that generating the dataframe was a bit of
+a brain-teaser.
 
-I have a problem with Gold data in that I only paid for some prop data through
-2010. This means that I needed to search the internet for updated data. I found
-a site whose data matched my prop data where my prop data ended so I decided
-to scrape it with a python script (included in the directory).
+The first 5 trading days of the year have been often rumored as having
+predictive value for the rest of the year. This seems quite absurd, but let's
+have a look-see just the same.
 
-I used the python script to regex out the price (script one) and the date 
-(script two). These where piped into a file and then combined with 
+As it turns out, this little myth is true over 70 of the time. And if you put that
+into a fair-coin test (dbinom(44,62,0.5) you get an absurdly unlikely number.
 
-  $ paste d2010 p2010
+Well, that's kinda boring information, really. So I've plotted it with an extra
+dimension. How often is it correct, and then when it is correct (or incorrect), 
+how correct is it (or horribly incorrect as the case may be)?
 
-For the seasonal data, I wrote the subset xts object called 't' to the
-directory and did the standard bash scripting from commandline.
+So there is a little data.frame to xts and some plotting wizardry involved here, 
+and hopefully enough evidence to suggest that this dear statistic never gets 
+seriously traded. 
 
-  $ cat t | cut -c 1-4 | uniq -c | grep -v Ind | awk '{print $2, $1}' > goldyears
+This commit will be mostly correct, but I have to wait for the close at 
+the end of the year to put in the correct 'text' in the plot.
 
-Then I read-in the 'goldenyears' file into R for plotting. 
-
-  > years <- read.table("goldenyears")
-  > plot(years, col="purple", type="b") 
-
-For the python script, I simply 
-
-  $ chmod +x golddate2010.py
-  $ ./golddate2010.py > d2010
-
-And so on for the other three files.
-
-That's about it. 
