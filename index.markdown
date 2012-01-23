@@ -13,6 +13,7 @@ Gold    | GLD  | eagle    |  purple       | purple4
 Silver  | SLV  | hawk     |  color        | color4  
 Copper  |      | owl      |  color        | color4y  
 Crude   |      | pelican  |  magenta      | magenta4
+Nat Gas |      | flamingo |  hotpink      | hotpink4
                             
                             
 EUR/USD |      | cobra    |  palegreen    | palegreen4  
