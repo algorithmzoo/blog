@@ -1,11 +1,9 @@
-Natural gas has had a significant sell-off and I thought it would be interesting to 
-see how frequent these selloffs have been. Data was in an annoying xlsx format from EIA.gov.
-No worry, R was able to convert it. Getting a data.frame into an xts object is a royal pain, 
-quite frankly, but the code for it is now preserved. 
+Ah, the golden cross. Markets tend to be less volatile in bull 
+markets and this is a quick study on what the return distribution 
+looks like for next-day, 5-day (week), 30-day (six weeks) and
+126-day (six months).
 
-Turns out that 8 times out of 85 the next day return was 0.
-
-Conclusion, there is no edge to go either way here and the potential for a big move
-is signficant, and if you're on the wrong side ...
-
-By the way, natty is a pink flamingo. 
+I'm going to calculate returns by putting the close for the 
+relevant time frame on the same row as the close for what day
+is of interest. This is a departure from the exp(sum of log returns) -1
+approach that I've been so fond of in the past. 
