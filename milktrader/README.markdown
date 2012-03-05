@@ -2,9 +2,8 @@ SPX selloff of 1% or greater
 ============================
 
 * Frequency of 1% selloffs
-* Frequency of 1% selloffs in bull markets
 * Seasonality of 1% selloffs
-* Time between 1% selloffs
+* Time betwen 1% selloffs
 * 5-day return after a streak ends
 
 ******
@@ -12,9 +11,8 @@ SPX selloff of 1% or greater
 Plots generated (with R)
 ------------------------
 
-* SPX.pdf (price chart)
-* seasonality chart
-* returnInFive.pdf (barplot) 
+* seasonal.pdf
+* returns.pdf (barplot)
 
 
 ******
