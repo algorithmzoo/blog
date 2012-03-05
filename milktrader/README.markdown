@@ -1,9 +1,18 @@
-setup the data:
+SPX selloff of 1% or greater
+============================
 
-  bull market
-  1% or greater selloff events
-  more than 5% close above the 50dma
 
--- plot a smoothed line of price above 50dma for 2012
+******
 
--- 
+Plots generated (with R)
+------------------------
+
+
+******
+
+Tools used:
+
+    R version 2.14.0 (2011-10-31)  
+    GNU bash, version 3.2.48(1)-release
+    quantmod version 3-17 (R package that loads xts, TTR and zoo)
+    git version 1.7.3.1
