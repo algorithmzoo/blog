@@ -22,5 +22,5 @@ chart_theme <- mytheme <- function() {
                        lty=list(upper="dashed",lower="dashed",ma="dotted")
                       )
   theme
-#  theme$bands
+#  theme$bbands
 }
