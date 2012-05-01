@@ -1,18 +1,16 @@
-SPX selloff of 1% or greater
+Sell in May and Go Away (after buyin in Novemember)
 ============================
 
-* Frequency of 1% selloffs
-* Seasonality of 1% selloffs
-* Time between 1% sellofs
-* 5-day returns after a streak ends
+* First look at May returns
+* Second look with 7 month returns ending in May
 
 ******
 
 Plots generated (with R)
 ------------------------
 
-* seasonal.pdf
-* returns.pdf (barplot)
+* may.pdf
+* octmay.pdf
 
 ******
 
