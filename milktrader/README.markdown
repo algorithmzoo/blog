@@ -9,10 +9,9 @@ Sell in May and Go Away
 Plots generated (with R)
 ------------------------
 
-* MAY.pdf
 * fooplot.pdf
-* foobarplot.pdf
-* tutuforthezoo.png
+* toobarplot.pdf
+* tutubarplot.pdf
 
 ******
 
