@@ -1,0 +1,158 @@
+ls()
+rm(list=ls())
+system('clear')
+ls()
+c
+c
+q()
+ls()
+clear()
+require(quantmod)
+clear()
+getSymbols('^GSPC', from='1900-01-01')
+head(GSPC)
+G <- dailyReturn(Cl(GSPC))
+head(G)
+G <- monthlyReturns(Cl(GSPC))
+G <- monthlyReturn(Cl(GSPC))
+head(G)
+clear()
+MAY <- G[.indexmon(G) == 4]
+?.index
+head(MAY)
+nrow(MAY)
+nrow(MAY[MAY>0])
+nrow(MAY[MAY>0]) / nrow(MAY)
+barplot(MAY)
+barplot(MAY, col=ifelse(MAY> 0, 'goldenrod', 'goldenrod4'))
+barplot(MAY, col=ifelse(MAY> 0, 'goldenrod', 'goldenrod4'), beside=T)
+barplot(MAY, col=ifelse(MAY> 0, 'goldenrod', 'goldenrod4'), beside=T, horiz=T, las=1)
+barplot(MAY, col=ifelse(MAY> 0, 'goldenrod', 'goldenrod4'), beside=T, horiz=T, las=1, cex.names=.5)
+barplot(MAY, col=ifelse(MAY> 0, 'goldenrod', 'goldenrod4'), beside=T, horiz=T, las=1, cex.names=.5, names.arg=years)
+tail(MAY)
+years
+clear()
+years <- seq(1950, 2012, 1)
+years
+class(years)
+barplot(MAY, col=ifelse(MAY> 0, 'goldenrod', 'goldenrod4'), beside=T, horiz=T, las=1, cex.names=.5, names.arg=years)
+pdf('MAY.pdf')
+barplot(MAY, col=ifelse(MAY> 0, 'goldenrod', 'goldenrod4'), beside=T, horiz=T, las=1, cex.names=.5, names.arg=years)
+dev.off()
+dev.off()
+system('clear')
+system('open MAY.pdf')
+clear()
+g <- monthlyReturn(Cl(GSPC), type='l')
+g <- monthlyReturn(Cl(GSPC), type='log')
+head(g)
+sum 6 values , exponentiate , subtract 1
+g$six <- rollapply(g, 6, sum)
+g$six <- xts:::rollapply.xts(g, 6, sum)
+head(g)
+sum(head(g$monthly.returns))
+g$RET <- exp( g$six       )-1
+head(g)
+clear()
+head(g)
+close of previous month, close of present month
+head(GSPC)
+JAN <- first(Op(GSPC)['1950-01'])
+JAN
+jun <- last(Cl(GSPC)['1950-06']))
+jun <- last(Cl(GSPC)['1950-06'])
+jun
+(jun - JAN)/JAN
+class(jan)
+class(jul)
+class(jun)
+JAN <- as.double(first(Op(GSPC)['1950-01']))
+jun <- as.double(last(Cl(GSPC)['1950-06']))
+(jun - JAN)/JAN
+(jun - JAN)/JAN == g$RET[,6]
+(jun - JAN)/JAN == g$RET[6,]
+(jun - JAN)/JAN 
+ g$RET[6,]
+   
+g$RET[.indexmon(g) == 4]
+require(PerformanceAnalytics)
+clear()
+?Return.cumulative
+Return.cumulative(g$RET[.indexmon(g) == 4])
+Return.cumulative(g$RET[.indexmon(g) == 9])
+for(i in 0:11) 
+print(i)
+for(i in 0:11)     print(Return.cumulative(g$RET[.indexmon(g) == 9]))
+for(i in 0:11)     print(Return.cumulative(g$RET[.indexmon(g) == i]))
+foo <- matrix(nrow=12)
+foo
+for(i in 0:11)    foo[,i]   <- Return.cumulative(g$RET[.indexmon(g) == i])
+for(i in 0:11)    foo[,i+1]   <- Return.cumulative(g$RET[.indexmon(g) == i])
+for(i in 0:11)    foo[i+1,]   <- Return.cumulative(g$RET[.indexmon(g) == i])
+foo
+class(foo)
+plot(foo)
+plot(foo, type'b', xaxt='n', las=1)
+plot(foo, type='b', xaxt='n', las=1)
+axis(side=1, at=seq(1,12,1), labels=month.abb)
+month.abb
+LETTERS
+pdf('fooplot.pdf')
+plot(foo, type='b', xaxt='n', las=1)
+axis(side=1, at=seq(1,12,1), labels=month.abb)
+dev.off()
+dev.off()
+barplot(foo)
+foo <- zoo(foo)
+barplot(foo)
+barplot(foo, col='goldenrod', horiz=T, beside=T, las=1, names.arg=month.abb))
+barplot(foo, col='goldenrod', horiz=T, beside=T, las=1, names.arg=month.abb)
+dev.off()
+pdf('foobarplot.pdf')
+barplot(foo, col='goldenrod', horiz=T, beside=T, las=1, names.arg=month.abb)
+dev.off()
+clear()
+annualized returns ~~~> cumulative return ^ 1/number of years -1
+blue <- function(x,y=61) return(x ^ (1/y) - 1)
+blue(20)
+rollapply(foo, 1, blue)
+foo
+tutu <- rollapply(foo, 1, blue)
+tutu
+achoo <- cbind(foo, tutu)
+achoo
+class(achoo)
+clear()
+?index
+index(achoo) <- month.abb
+achoo
+names(achoo) <- c('cumulative','annualized')
+achoo
+barplot(achoo)
+barplot(achoo, col=ifelse(tutu$annualized > 0, 'goldenrod', 'goldenrod4'))
+barplot(achoo, col=ifelse(tutu[,1] > 0, 'goldenrod', 'goldenrod4'))
+barplot(achoo, col=ifelse(tutu[,2] > 0, 'goldenrod', 'goldenrod4'))
+barplot(tutu, col=ifelse(tutu[,1] > 0, 'goldenrod', 'goldenrod4'))
+barplot(tutu, col=ifelse(tutu[,1] > 0, 'goldenrod', 'goldenrod4'), beside=T)
+barplot(tutu, col=ifelse(tutu[,1] > 0, 'goldenrod', 'goldenrod4'), beside=T, names.arg=month.abb)
+pdf('tutu4thezoo.pdf')
+barplot(tutu, col=ifelse(tutu[,1] > 0, 'goldenrod', 'goldenrod4'), beside=T, names.arg=month.abb)
+dev.off()
+dev.off()
+png('tutu4thezoo.png')
+barplot(tutu, col=ifelse(tutu[,1] > 0, 'goldenrod', 'goldenrod4'), beside=T, names.arg=month.abb)
+dev.off()
+clear()
+ls()
+save(obj=achoo, file'achoo')
+save(obj=achoo, fil='achoo')
+save(obj=achoo, file='achoo')
+ls()
+rm(list=ls())
+ls()
+clear()
+achoo
+load('achoo')
+achoo
+ls()
+q()

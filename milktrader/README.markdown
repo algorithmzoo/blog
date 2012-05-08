@@ -1,22 +1,26 @@
-Sell in May and Go Away (after buyin in Novemember)
+Sell in May and Go Away
 ============================
 
-* First look at May returns
-* Second look with 7 month returns ending in May
+* Monthly returns for May
+* Sell in May after 6-month hold
 
 ******
 
 Plots generated (with R)
 ------------------------
 
-* may.pdf
-* octmay.pdf
+* MAY.pdf
+* fooplot.pdf
+* foobarplot.pdf
+* tutuforthezoo.png
 
 ******
 
 Tools used:
 
     R version 2.14.0 (2011-10-31)  
+    Vim version 7.3
+    quantmod version 3-17 
+    PerformanceAnalytics version 1.0.4.4
     GNU bash, version 3.2.48(1)-release
-    quantmod version 3-17 (R package that loads xts, TTR and zoo)
     git version 1.7.3.1
