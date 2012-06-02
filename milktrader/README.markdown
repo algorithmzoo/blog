@@ -1,8 +1,8 @@
-Sell in May and Go Away
+Lose 4% in 3 days
 ============================
 
-* Monthly returns for May
-* Sell in May after 6-month hold
+*
+* 
 
 ******
 
