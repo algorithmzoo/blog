@@ -11,7 +11,7 @@ Plots generated (with R)
 ------------------------
 
 * barplot
-* equity curve using chart_Series
+* equity curve using chart Series
 * density
 
 ******
