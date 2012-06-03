@@ -1,4 +1,4 @@
- plotEquityCurve <- function(x) { 
+ PEQ_chart_Series <- function(x) { 
    
    nam  = deparse(substitute(x)) 
    x$eq = NA
@@ -7,7 +7,7 @@
        
        x$eq[i,] =  apply(x[,1][1:i], 2, Return.cumulative)}
 
-   plot(x$eq + 1, main=nam, las=1, xaxt='n')
+   chart_Series(x$eq + 1, name=nam)
 
  }
    

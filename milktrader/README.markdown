@@ -1,23 +1,24 @@
 Lose 4% in 3 days
 ============================
 
-*
-* 
+* Pre-Process Data
+* Three Numerical Questions
+* Three Plots
 
 ******
 
 Plots generated (with R)
 ------------------------
 
-* fooplot.pdf
-* toobarplot.pdf
-* tutubarplot.pdf
+* barplot
+* equity curve using chart_Series
+* density
 
 ******
 
 Tools used:
 
-    R version 2.14.0 (2011-10-31)  
+    R version 2.15.0 
     Vim version 7.3
     quantmod version 3-17 
     PerformanceAnalytics version 1.0.4.4
