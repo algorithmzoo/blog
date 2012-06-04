@@ -1,0 +1,85 @@
+ls()
+clear()
+require(quantmod)
+require(PerformanceAnalytics)
+clear()
+getSymbols('^GSPC', from='1900-01-01')
+G = dailyReturn(Cl(GSPC))
+?Return.cumulative
+head(G)
+names(G) = 'RET'
+G$RET.3 = rollapply(G, 3, Return.cumulative)
+tail(G)
+a = as.numeric(last(G$RET.3))
+a
+clear()
+tail(Cl(GSPC), n=4)
+x = 1332.42
+y = 1278.04
+b = (y-x)/x
+b
+all.equal(a,b)
+G$next.day = lag(G$RET, k= -1)
+tail(G)
+nrow(G)
+loser = G[G$RET.3 < -0.04]
+nrow(loser)
+max(loser$RET.3)
+clear()
+is the next day return biased up or down?
+flips = nrow(loser)
+heads = nrow(loser[loser$next.day > 0])
+tails = flips - heads
+game = chisq.test(c(heads, tails))
+ifelse(game$p.value < .1, "may not be a fair coin", "likely a fair game")
+heads
+tails
+clear()
+what are the extreme values for next day
+max(loser$next.day)
+max(na.omit(loser$next.day))
+min(na.omit(loser$next.day))
+extremes = loser[loser$next.day > .1 | loser$next.day < -.1]
+extremes
+extremes$next.day
+clear()
+what dow did extreme returns occur?
+extremes$dow.tmp = .indexwday(extremes)
+extremes
+extremes$dow = ifelse(extremes$dow.tmp == 6, 1, extremes$dow.tmp)
+extremes$dow.tmp = .indexwday(extremes) + 1
+extremes$dow = ifelse(extremes$dow.tmp == 6, 1, extremes$dow.tmp)
+extrems[,c(3,5)]
+extremes[,c(3,5)]
+clear()
+barplot(loser$next.day, col=ifelse(loser$next.day >0, 'green', 'pink'), beside=T, las=1)
+barplot(loser$next.day, col=ifelse(loser$next.day >0, 'green', 'pink'), beside=T, las=1, border=NA)
+barplot(loser$next.day, col=ifelse(loser$next.day >0, 'green', 'red'), beside=T, las=1, border=NA, horiz=T)
+barplot(loser$next.day, col=ifelse(loser$next.day >0, 'green', 'red'), beside=T, las=1, border=NA, horiz=T, cex.names = .2)
+dev.off()
+source('PEQ_chart_Series.r')
+PEQ_chart_Series
+PEQ_chart_Series(loser$next.day)
+barplot(loser$next.day['2009::'], col=ifelse(loser$next.day['2009::'] >0, 'green', 'red'), beside=T, las=1, border=NA, horiz=T, cex.names = .2)
+barplot(loser$next.day['2009::'], col=ifelse(loser$next.day['2009::'] >0, 'green', 'red'), beside=T, las=1, border=NA, horiz=T, cex.names = .4)
+dev.off()
+source('PD_png.r')
+PD_png
+clear()
+args(PD_png)
+PD_png(loser$next.day, lastprice=1278, title="Jun 4, 2012")
+PD_png(na.omit(loser$next.day), lastprice=1278, title="Jun 4, 2012")
+dev.off()
+PD_png(na.omit(loser$next.day), lastprice=1278, title="Jun 4, 2012")
+PD_png(loser$next.day, lastprice=1278, title="Jun 4, 2012")
+clear()
+clear()
+PD_png(loser$next.day, lastprice=1278, title="Jun 4, 2012")
+clear()
+PD_png(loser$next.day, lastprice=1278, title="Jun 4, 2012")
+PD_png
+system('ls')
+system('open 1.png')
+system('open 1.png')
+savehistory()
+q()
