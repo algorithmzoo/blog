@@ -83,3 +83,16 @@ system('open 1.png')
 system('open 1.png')
 savehistory()
 q()
+require(quantmod)
+head(G)
+G$second.day = lag(G$RET, k=-2)
+system('cat .Rhistory | grep loser')
+loser = G[G$RET.3 < -0.04]
+winner = loser[loser$next.day >0]
+nrow(winner)
+PD_png(winner, lastprice=1278)
+system('open 1.png')
+head(winner)
+PD_png(winner, lastprice=1278, title="June 5, 2012")
+winner[,4]
+q()

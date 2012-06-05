@@ -1,18 +1,11 @@
-Lose 4% in 3 days
+4% selloff in 3 days return 2 days later
 ============================
 
-* Pre-Process Data
-* Three Numerical Questions
-* Three Plots
-
-******
 
 Plots generated (with R)
 ------------------------
 
-* barplot
-* equity curve using chart Series
-* density
+* density plot
 
 ******
 
