@@ -1,11 +1,11 @@
-4% selloff in 3 days return 2 days later
+TITLE
 ============================
 
 
 Plots generated (with R)
 ------------------------
 
-* density plot
+* plot
 
 ******
 
