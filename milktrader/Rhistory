@@ -1,35 +1,10 @@
-require(quantmod)
 require(milk)
-getSymbols('^GSPC', from='1900-01-01')
+data(opex)
+getSymbols('^GSPC', from=index(first(opex)))
 GSPC$RET = dailyReturn(Cl(GSPC))
-GSPC$weeklyRET = weeklyReturn(Cl(GSPC))
-G = GSPC[.indexmday(GSPC) == 13 & .indexwday(GSPC) == 5]
-nrow(G)
-tail(G)
-G$next.week = lag(G$weeklyRET, k=-1)
-tail(G)
-goodspook = G[G$RET >0]
-nrow(goodspook)
-nrow(G)
-PDFzooplot(goodspook$next.week, lastprice=1344)
-args(PNGzooplot)
-PDFzooplot(goodspook$next.week, lastprice=1356.78, title="July 20, 2012")
-goodspook$next.week
-blogdata = goodspook$next.week
-save(blogdata, file='blogdata')
-?save
-?write.csv
-write.csv(blogdata, file='blogdata')
-write.table(blogdata, file='blogdata')
-blogdata = as.data.frame(blogdata)
-head(blogdata)
-write.table(blogdata, file='blogdata')
-badspook = G[G$RET <0]
-PDFzooplot(badspook$next.week, lastprice=1356.78, title="July 20, 2012")
-blogdata = badspook$next.week
-blogdata = as.data.frame(blogdata)
-write.table(blogdata, file='blogdata')
-PNGzooplot(badspook$next.week, lastprice=1356.78, title="Jul 20, 2012 \n (if last Friday was a down day)")
-PNGzooplot(goodspook$next.week, lastprice=1356.78, title="Jul 20, 2012")
-PNGzooplot(goodspook$next.week, lastprice=1356.78, title="Jul 20, 2012")
-savehistory()
+GSPC$yest = lag(GSPC$RET, k=1)
+G = GSPC[index(opex)]
+g = G[.indexmon(G) == 5 | .indexmon(G) == 6 | .indexmon(G) ==7 ]
+png('thu.opex.week.summer.png')
+around_zero(g$yest, main="SPX returns on Thursdays during OpEx week\n over summer months",  xlab='Jan 2000 to Aug 2010')
+dev.off()
