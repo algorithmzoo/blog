@@ -4,7 +4,7 @@ getSymbols('^GSPC', from=index(first(opex)))
 GSPC$RET = dailyReturn(Cl(GSPC))
 GSPC$next.day = lag(GSPC$RET, k=-1)
 G = GSPC[index(opex)]
-g = G[G$RET > 0]
+g = G[G$RET < 0]
 png('spxNextDayAfterOpexNegative.png')
 around_zero(g$next.day, xlab='Jan 2000 to Jul 2011', main='SPX returns the day after OpEx\n when OpEx was negative')
 dev.off()
