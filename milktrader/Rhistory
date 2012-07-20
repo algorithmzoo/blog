@@ -1,15 +1,10 @@
 require(milk)
-clear()
 data(opex)
-getSymbols('^GSPC' , from=index(first(opex)))
+getSymbols('^GSPC', from=index(first(opex)))
 GSPC$RET = dailyReturn(Cl(GSPC))
+GSPC$next.day = lag(GSPC$RET, k=-1)
 G = GSPC[index(opex)]
-g = G[.indexmon(G) == 6]
-nrow(g)
-around_zero(g$RET)
-around_zero(g$RET, xlab='2000 to 2011', main='SPX returns on OpEx Friday \n in July')
-png('opex_friday_in_july.png')
-around_zero(g$RET, xlab='2000 to 2011', main='SPX returns on OpEx Friday \n in July')
+g = G[G$RET > 0]
+png('spxNextDayAfterOpexNegative.png')
+around_zero(g$next.day, xlab='Jan 2000 to Jul 2011', main='SPX returns the day after OpEx\n when OpEx was negative')
 dev.off()
-dev.off()
-savehistory()
