@@ -3,7 +3,6 @@ getSymbols('^NDX', from='1900-01-01')
 NDX$RET = dailyReturn(Cl(NDX))
 NDX$next.day = lag(NDX$RET, k = -1)
 ndx = NDX[.indexwday(NDX) == 5]
-foo = ndx[ndx$RET < -0.015]
+foo = ndx[ndx$RET < -0.014]
 bar = foo[.indexmon(foo) == 6]
-around_zero(bar$next.day, dn.col='yellow4', up.col='yellow', main='NDX', xlab='Next day returns when Friday was down over 1.5% in July\n from 1990 to present')
-system('cal july 1990')
+around_zero(bar$next.day, dn.col='yellow4', up.col='yellow', main='NDX\n (19 occurrences)', xlab='Next day returns when Friday was down over 1.4% in July\n from 1990 to present')
