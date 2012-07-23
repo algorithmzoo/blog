@@ -1,10 +1,9 @@
 require(milk)
-data(opex)
-getSymbols('^GSPC', from=index(first(opex)))
-GSPC$RET = dailyReturn(Cl(GSPC))
-GSPC$next.day = lag(GSPC$RET, k=-1)
-G = GSPC[index(opex)]
-g = G[G$RET < 0]
-png('spxNextDayAfterOpexNegative.png')
-around_zero(g$next.day, xlab='Jan 2000 to Jul 2011', main='SPX returns the day after OpEx\n when OpEx was negative')
-dev.off()
+getSymbols('^NDX', from='1900-01-01')
+NDX$RET = dailyReturn(Cl(NDX))
+NDX$next.day = lag(NDX$RET, k = -1)
+ndx = NDX[.indexwday(NDX) == 5]
+foo = ndx[ndx$RET < -0.015]
+bar = foo[.indexmon(foo) == 6]
+around_zero(bar$next.day, dn.col='yellow4', up.col='yellow', main='NDX', xlab='Next day returns when Friday was down over 1.5% in July\n from 1990 to present')
+system('cal july 1990')
