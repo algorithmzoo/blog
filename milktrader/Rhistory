@@ -1,0 +1,9 @@
+require(milk)
+getSymbols('^TNX', from='1900-01-01')
+weekly = TNX
+weekly$RET = weeklyReturn(Cl(TNX))
+weekly = na.omit(weekly)
+weekly$next.one = lag(weekly$RET, k= -1)
+foo.for.five.weeks = weekly[weekly$RET < 0 & lag(weekly$RET < 0) &  lag(weekly$RET < 0, k=3) & lag(weekly$RET < 0, k=4) ]
+png('tnx.png')
+zeroplot(foo.for.five.weeks$next.one, main='TNX', up.col='skyblue', dn.col='skyblue4', xlab='Weekly returns after 5 consecutive losing weeks\nfrom 1962 to present')
