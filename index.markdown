@@ -17,3 +17,6 @@ Nat Gas |      | flamingo |  hotpink      | hotpink4
                             
                             
 EUR/USD |      | cobra    |  palegreen    | palegreen4  
+
+stock   | sym  | Timon    |  lightgreen   | lightpink2
+

@@ -1,9 +1,9 @@
 require(milk)
-getSymbols('^TNX', from='1900-01-01')
-weekly = TNX
-weekly$RET = weeklyReturn(Cl(TNX))
-weekly = na.omit(weekly)
-weekly$next.one = lag(weekly$RET, k= -1)
-foo.for.five.weeks = weekly[weekly$RET < 0 & lag(weekly$RET < 0) &  lag(weekly$RET < 0, k=3) & lag(weekly$RET < 0, k=4) ]
-png('tnx.png')
-zeroplot(foo.for.five.weeks$next.one, main='TNX', up.col='skyblue', dn.col='skyblue4', xlab='Weekly returns after 5 consecutive losing weeks\nfrom 1962 to present')
+getSymbols('AAPL', from='1900-01-01')
+AAPL$RET = dailyReturn(Cl(AAPL))
+AAPL$gap = ifelse((Op(AAPL)-lag(Cl(AAPL)))/lag(Cl(AAPL)) < -0.04, 1,0)
+apple = AAPL[AAPL$gap == 1]
+nrow(apple)
+A = apple[-78,]
+png('apple.png')
+zeroplot(A$RET, main='AAPL', up.col = 'lightgreen', dn.col='lightpink2', xlab='Daily return after a gap down of greater\n than 4% since 1987')
