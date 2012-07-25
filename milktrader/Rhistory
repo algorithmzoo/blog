@@ -1,12 +1,7 @@
 require(milk)
-getSymbols('AAPL', from='1900-01-01')
-AAPL = adjustOHLC(AAPL)
-AAPL$gap = ifelse((Op(AAPL) - lag(Cl(AAPL)))/lag(Cl(AAPL)) < -0.04, 1, 0)
-A = AAPL[AAPL$gap == 1]
-A = A[-75,]
-foo = index(A)
-getSymbols('^NDX', from=first(foo))
-NDX$RET = dailyReturn(Cl(NDX))
-ndx = NDX[index(A)]
-png('ndxAndAAPL.png')
-zeroplot(ndx$RET, up.col='yellow', dn.col='yellow4', main='NDX', xlab='Daily return when AAPL gaps down 4%\n from 1989')
+getSymbols('^GSPC', from='1900-01-01')
+GSPC$RET = dailyReturn(Cl(GSPC))
+GSPC$next.day = lag(GSPC$RET, k=-1)
+G = GSPC[abs(GSPC$RET) < .0002 ]
+png('flatday.png')
+zeroplot(G$next.day, main='SPX', xlab='Daily returns after a flat day of +/- .02 % \nchange or less from 1950 to present')
