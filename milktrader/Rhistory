@@ -1,6 +1,9 @@
 require(milk)
 getSymbols('SLV', from='1900-01-01')
 SLV$RET = dailyReturn(Ad(SLV))
-slv = SLV[.indexmon(SLV) == 6]
-png('silverjuly.png')
-zeroplot(slv$RET, up.col='mediumorchid', dn.col='mediumorchid4', main='SLV', xlab='Daily returns in July\n from 2006 to present')
+source('Rhistory')
+SLV$next.day = lag(SLV$RET, k=-1)
+e = euro[euro$RET > .01]
+slv = SLV[index(e)]
+png('silvereuro.png')
+zeroplot(slv$next.day, up.col='mediumorchid', dn.col='mediumorchid4', main='SLV', xlab='Daily returns the day after EUR/USD rallies 1% or more\n from 2006 to present')
