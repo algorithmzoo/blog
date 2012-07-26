@@ -1,0 +1,14 @@
+require(milk)
+getSymbols('GLD', from='1900-01-01')
+GLD$RET = dailyReturn(Cl(GLD))
+GLD$next.day = lag(GLD$RET, k=-1)
+euro = as.xts(read.zoo('euro.csv', format='%m/%d/%Y', skip=1, sep=';', index.col=c(1:2)))
+boo = head(readLines('euro.csv'), n=1)
+boo
+euro = euro[,-1]
+names(euro) = c('Open', 'Close', 'Low', 'High')
+euro$RET = dailyReturn(Cl(euro))
+e = euro[euro$RET > .01]
+gld = GLD[index(e)]
+png('gldeuo.png')
+zeroplot(gld$next.day, up.col='purple', dn.col='purple4', main='GLD', xlab='Daily returns the day after EUR/USD rallies 15/n from 2005 to present')
