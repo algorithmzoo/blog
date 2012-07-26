@@ -1,10 +1,6 @@
 require(milk)
-euro = as.xts(read.zoo('euro.csv', format='%m/%d/%Y', skip=1, sep=';', index.col=c(1:2)))
-boo = head(readLines('euro.csv'), n=1)
-boo
-euro = euro[,-1]
-names(euro) = c('Open', 'Close', 'Low', 'High')
-euro$RET = dailyReturn(Cl(euro))
-e = euro[.indexmon(euro) == 6]
-png('julyeuro.png')
-zeroplot(e$RET, up.col='palegreen', dn.col='palegreen4', main='EUR/USD', xlab='Daily returns in July\n from 2005 to present')
+getSymbols('SLV', from='1900-01-01')
+SLV$RET = dailyReturn(Ad(SLV))
+slv = SLV[.indexmon(SLV) == 6]
+png('silverjuly.png')
+zeroplot(slv$RET, up.col='mediumorchid', dn.col='mediumorchid4', main='SLV', xlab='Daily returns in July\n from 2006 to present')

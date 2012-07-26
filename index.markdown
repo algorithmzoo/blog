@@ -10,7 +10,7 @@ DGS5    |      | swordfish|  cyan         | cyan4
 DGS2    |      | baracuda |  deepskyblue  | deepskyblue4  
                             
 Gold    | GLD  | eagle    |  purple       | purple4  
-Silver  | SLV  | hawk     |  color        | color4  
+Silver  | SLV  | hawk     |  mediumorchid | mediumorchid4  
 Copper  |      | owl      |  color        | color4y  
 Crude   |      | pelican  |  magenta      | magenta4
 Nat Gas |      | flamingo |  hotpink      | hotpink4
@@ -18,5 +18,5 @@ Nat Gas |      | flamingo |  hotpink      | hotpink4
                             
 EUR/USD |      | cobra    |  palegreen    | palegreen4  
 
-stock   | sym  | Timon    |  lightgreen   | lightpink2
+stock   | sym  | Symba    |  lightgreen   | lightpink2
 
