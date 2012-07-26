@@ -1,8 +1,7 @@
 require(milk)
-getSymbols('^GSPC', from='1900-01-01')
-GSPC$RET =dailyReturn(Cl(GSPC))
-GSPC$next.day = lag(GSPC$RET ,k=-1)
-G  = GSPC[.indexmon(GSPC) == 6]
-g = G[G$RET > .01]
-png('spxinjuly.png')
-zeroplot(g$next.day, main='SPX', xlab='Daily returns after a 1% rally in July \n from 1950 to present')
+getSymbols('^RUT', from='1900-01-01')
+RUT$RET = dailyReturn(Cl(RUT))
+RUT$bull = ifelse(SMA(Cl(RUT), n=50) > SMA(Cl(RUT), n=200), 1, 0)
+rut = RUT[RUT$bull == 1 & lag(RUT$bull, k=-1) == 0 ]
+png('lastday.png')
+zeroplot(rut$RET, up.col='khaki', dn.col='khaki4', main='RUT', xlab='Daily return on the last day of a bull market\n from 1987 to present')
