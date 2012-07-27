@@ -1,6 +1,10 @@
 require(milk)
-getSymbols('^GSPC', from='1900-01-01')
-GSPC$RET = dailyReturn(Cl(GSPC))
-G = GSPC[.indexmon(GSPC) == 6 & .indexwday(GSPC) == 5]
-png('dailyreturnonfridayinjuly.png')
-zeroplot(G$RET, main='SPX', xlab='1950 to present')
+euro = as.xts(read.zoo('~/Desktop/weeklyEURUSD.csv', skip=1, sep=';', format="%m/%d/%Y", index.column=c(1,2)))
+euro = euro[,-1]
+names(euro) = c('open','close','low','high')
+euro$RET = weeklyReturn(Cl(euro))
+euro$next.week = lag(euro$RET, k=-1)
+e = euro[euro$RET > .01]
+ee = e[.indexmon(e) == 6]
+png('eurorallyweek.png')
+zeroplot(ee$next.week, main='EURUSD', xlab='from 1986 to 2011', up.col='palegreen', dn.col='palegreen4')
