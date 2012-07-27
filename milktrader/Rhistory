@@ -1,7 +1,6 @@
 require(milk)
-getSymbols('^RUT', from='1900-01-01')
-RUT$RET = dailyReturn(Cl(RUT))
-RUT$bull = ifelse(SMA(Cl(RUT), n=50) > SMA(Cl(RUT), n=200),1,0)
-rut = RUT[RUT$bull ==0 & lag(RUT$bull) == 1]
-png('firstbearRUT.png')
-zeroplot(rut$RET, up.col='khaki', dn.col='khaki4', main='RUT', xlab='Daily returns the first day of a bear market \n from 1987 to present')
+getSymbols('^GSPC', from='1900-01-01')
+GSPC$RET = dailyReturn(Cl(GSPC))
+G = GSPC[.indexmon(GSPC) == 6 & .indexwday(GSPC) == 5]
+png('dailyreturnonfridayinjuly.png')
+zeroplot(G$RET, main='SPX', xlab='1950 to present')
