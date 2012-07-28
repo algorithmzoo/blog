@@ -1,9 +1,8 @@
 require(milk)
-getSymbols('^NDX', from='1900-01-01')
-a = nrow(NDX) -1
-NDX = NDX[-a,]
-NDX$RET = dailyReturn(Cl(NDX))
-NDX$next.day = lag(NDX$RET, k=-1)
-ndx = NDX[NDX$RET > .024 & .indexwday(NDX) == 5]
-png('ndxbigfriday.png')
-zeroplot(ndx$next.day, up.col='yellow', dn.col='yellow4', main='NDX', xlab='1985 to present')
+getSymbols('^RUT', from='1900-01-01')
+RUT$RET = dailyReturn(Cl(RUT))
+RUT =RUT[-(nrow(RUT)-1),]
+RUT$next.day = lag(RUT$RET, k= -1)
+rut = RUT[.indexwday(RUT) ==5 & RUT$RET > .024]
+png('bigrutday.png')
+zeroplot(rut$next.day, up.col='khaki', dn.col='khaki4', main='RUT', xlab='from 1985 to present')
