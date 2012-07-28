@@ -1,10 +1,9 @@
 require(milk)
-euro = as.xts(read.zoo('~/Desktop/weeklyEURUSD.csv', skip=1, sep=';', format="%m/%d/%Y", index.column=c(1,2)))
-euro = euro[,-1]
-names(euro) = c('open','close','low','high')
-euro$RET = weeklyReturn(Cl(euro))
-euro$next.week = lag(euro$RET, k=-1)
-e = euro[euro$RET > .01]
-ee = e[.indexmon(e) == 6]
-png('eurorallyweek.png')
-zeroplot(ee$next.week, main='EURUSD', xlab='from 1986 to 2011', up.col='palegreen', dn.col='palegreen4')
+getSymbols('^NDX', from='1900-01-01')
+a = nrow(NDX) -1
+NDX = NDX[-a,]
+NDX$RET = dailyReturn(Cl(NDX))
+NDX$next.day = lag(NDX$RET, k=-1)
+ndx = NDX[NDX$RET > .024 & .indexwday(NDX) == 5]
+png('ndxbigfriday.png')
+zeroplot(ndx$next.day, up.col='yellow', dn.col='yellow4', main='NDX', xlab='1985 to present')
