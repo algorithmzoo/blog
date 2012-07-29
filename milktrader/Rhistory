@@ -3,9 +3,10 @@ getSymbols('^TNX', from='1900-01-01')
 getSymbols('^GSPC', from=first(index(TNX)))
 GSPC$RET = dailyReturn(Cl(GSPC))
 G = GSPC[GSPC$RET > .018]
+g = G[.indexmon(G) == 6]
 TNX = TNX[-(nrow(TNX) - 1),]
 TNX$RET = dailyReturn(Cl(TNX))
 TNX$next.day = lag(TNX$RET, k=-1)
-tnx = TNX[index(G)]
+tnx = TNX[index(g)]
 png('tnxAfterSPXrally.png')
 zeroplot(tnx$next.day, up.col='skyblue', dn.col='skyblue4', main='TNX', xlab='from 1962 to present')
