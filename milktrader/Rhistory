@@ -1,11 +1,11 @@
 require(milk)
-getSymbols('GLD', from='1900-01-01')
-getSymbols('^GSPC', from=first(index(GLD)))
-GSCP$RET = dailyReturn(Cl(GSPC))
+getSymbols('^TNX', from='1900-01-01')
+getSymbols('^GSPC', from=first(index(TNX)))
+GSPC$RET = dailyReturn(Cl(GSPC))
 G = GSPC[GSPC$RET > .018]
-GLD$RET = dailyReturn(Cl(GLD))
-GLD$next.day = lag(GLD$RET, k=-1)
-gld = GLD[index(G)]
-g = gld[-(nrow(gld)-1),]
-png('goldWhenSPXRallies.png')
-zeroplot(g$next.day, up.col='purple', dn.col='purple4', main='GLD', xlab='from 2005 to present')
+TNX = TNX[-(nrow(TNX) - 1),]
+TNX$RET = dailyReturn(Cl(TNX))
+TNX$next.day = lag(TNX$RET, k=-1)
+tnx = TNX[index(G)]
+png('tnxAfterSPXrally.png')
+zeroplot(tnx$next.day, up.col='skyblue', dn.col='skyblue4', main='TNX', xlab='from 1962 to present')
