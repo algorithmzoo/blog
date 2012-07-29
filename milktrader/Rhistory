@@ -1,8 +1,7 @@
 require(milk)
-getSymbols('^RUT', from='1900-01-01')
-RUT$RET = dailyReturn(Cl(RUT))
-RUT =RUT[-(nrow(RUT)-1),]
-RUT$next.day = lag(RUT$RET, k= -1)
-rut = RUT[.indexwday(RUT) ==5 & RUT$RET > .024]
-png('bigrutday.png')
-zeroplot(rut$next.day, up.col='khaki', dn.col='khaki4', main='RUT', xlab='from 1985 to present')
+getSymbols('^GSPC', from='1900-01-01')
+GSPC$RET = dailyReturn(Cl(GSPC))
+GSPC$next.day = lag(GSPC$RET, k = -1)
+G = GSPC[GSPC$RET > .018 & .indexmon(GSPC) == 6]
+png('bigReturnInJuly.png')
+zeroplot(G$next.day, main='SPX', xlab='from 1950 to present')
