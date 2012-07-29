@@ -1,7 +1,11 @@
 require(milk)
-getSymbols('^GSPC', from='1900-01-01')
-GSPC$RET = dailyReturn(Cl(GSPC))
-GSPC$next.day = lag(GSPC$RET, k = -1)
-G = GSPC[GSPC$RET > .018 & .indexmon(GSPC) == 6]
-png('bigReturnInJuly.png')
-zeroplot(G$next.day, main='SPX', xlab='from 1950 to present')
+getSymbols('GLD', from='1900-01-01')
+getSymbols('^GSPC', from=first(index(GLD)))
+GSCP$RET = dailyReturn(Cl(GSPC))
+G = GSPC[GSPC$RET > .018]
+GLD$RET = dailyReturn(Cl(GLD))
+GLD$next.day = lag(GLD$RET, k=-1)
+gld = GLD[index(G)]
+g = gld[-(nrow(gld)-1),]
+png('goldWhenSPXRallies.png')
+zeroplot(g$next.day, up.col='purple', dn.col='purple4', main='GLD', xlab='from 2005 to present')
