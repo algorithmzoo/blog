@@ -3,5 +3,6 @@ getSymbols('^GSPC', from='1900-01-01')
 GSPC$RET = dailyReturn(Cl(GSPC))
 G = apply.monthly(GSPC, last)
 g = G[.indexmon(G) == 6]
+gg = g[-nrow(g), ]
 png('lastdayjuly.png')
-zeroplot(g$RET, xlab='1950 to present')
+zeroplot(gg$RET, xlab='1950 to present')
