@@ -1,8 +1,8 @@
 require(milk)
-getSymbols('^GSPC', from='1900-01-01')
-GSPC$RET = dailyReturn(Cl(GSPC))
-G = apply.monthly(GSPC, last)
-g = G[.indexmon(G) == 6]
-gg = g[-nrow(g), ]
-png('lastdayjuly.png')
-zeroplot(gg$RET, xlab='1950 to present')
+getSymbols('^NDX', from='1900-01-01')
+NDX$RET = dailyReturn(Cl(NDX))
+ndx = apply.monthly(NDX, last)
+n = ndx[-(nrow(ndx)), ]
+nn = n[.indexmon(n) == 6]
+png('ndxlastdayjuly.png')
+zeroplot(nn$RET, main='NDX', xlab='1986 to 2011', up.col='yellow', dn.col='yellow4')
