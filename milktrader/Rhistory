@@ -1,7 +1,7 @@
-require(milk)
-gas = as.xts(read.zoo('~/Desktop/gasolineGulfCoast.csv', format='%d-%b-%Y', sep=',', skip=6))
-gas = gas[,1]
-gas$RET =dailyReturn(gas)
-g = apply.monthly(gas, last)
-png('gasoline.png')
-zeroplot(g$RET, up.col='maroon1', dn.col='maroon4', main='Gasoline\n (Gulf Coast spot)', xlab='1986 to 2011')
+require(mil
+euro = as.xts( read.zoo('eurojuly.csv', skip=1, sep=';', format='%m-%d-%Y', index.column=c(1,2) ) )
+e = euro[,3]
+e$RET = dailyReturn(e)
+ee = apply.monthly(e, last)
+png('eurolastday.png')
+zeroplot(ee$RET, main='EURUSD', xlab='2005 to present', up.col='palegreen', dn.col='palegreen4')
