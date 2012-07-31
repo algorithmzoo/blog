@@ -14,6 +14,7 @@ Silver  | SLV  | hawk     |  mediumorchid | mediumorchid4
 Copper  |      | owl      |  color        | color4y  
 Crude   |      | pelican  |  magenta      | magenta4
 Nat Gas |      | flamingo |  hotpink      | hotpink4
+Gasoline|      | heron    |  maroon1      | maroon4
                             
                             
 EUR/USD |      | cobra    |  palegreen    | palegreen4  

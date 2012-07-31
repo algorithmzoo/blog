@@ -1,8 +1,7 @@
 require(milk)
-getSymbols('^RUT', from='1900-01-01')
-RUT$RET = dailyReturn(Cl(RUT))
-rut = apply.monthly(RUT, last)
-r = rut[.indexmon(rut) == 6]
-rr = r[-(nrow(r)),]
-png('rutlastjuly.png')
-zeroplot(rr$RET, main='RUT', xlab='1988 to 2011', up.col='khaki', dn.col='khaki4')
+gas = as.xts(read.zoo('~/Desktop/gasolineGulfCoast.csv', format='%d-%b-%Y', sep=',', skip=6))
+gas = gas[,1]
+gas$RET =dailyReturn(gas)
+g = apply.monthly(gas, last)
+png('gasoline.png')
+zeroplot(g$RET, up.col='maroon1', dn.col='maroon4', main='Gasoline\n (Gulf Coast spot)', xlab='1986 to 2011')
