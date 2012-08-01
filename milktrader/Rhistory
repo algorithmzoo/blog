@@ -2,7 +2,8 @@ require(milk)
 getSymbols('^GSPC', from='1900-01-01')
 GSPC$RET = dailyReturn(Cl(GSPC))
 GSPC$next.day = lag(GSPC$RET, k=-1)
-G = apply.monthly(GSPC, last)
-g = G[.indexmon(G) == 6]
-png('firstaugustspx.png')
-zeroplot(g$next.day, xlab='1950 to present')
+GS = apply.monthly(GSPC, last)
+G = GS[.indexwday(GS) == 3]
+system('cal May 1950')
+png('firstdaywednesday.png')
+zeroplot(G$next.day, xlab='1950 to present')
