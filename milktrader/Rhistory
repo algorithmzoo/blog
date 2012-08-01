@@ -1,7 +1,8 @@
 require(milk)
-getSymbols('SLV', from='1900-01-01')
-SLV$RET = dailyReturn(Ad(SLV))
-SLV = SLV[-nrow(SLV),]
-slv = apply.monthly(SLV, last)
-png('silver.png')
-zeroplot(slv$RET, up.col='mediumorchid', dn.col='mediumorchid4', main='SLV', xlab='2006 to present')
+getSymbols('^GSPC', from='1900-01-01')
+GSPC$RET = dailyReturn(Cl(GSPC))
+GSPC$next.day = lag(GSPC$RET, k=-1)
+G = apply.monthly(GSPC, last)
+g = G[.indexmon(G) == 6]
+png('firstaugustspx.png')
+zeroplot(g$next.day, xlab='1950 to present')
