@@ -1,9 +1,7 @@
 require(milk)
-getSymbols('^GSPC', from='1900-01-01')
-GSPC$RET = dailyReturn(Cl(GSPC))
-GSPC$next.day = lag(GSPC$RET, k=-1)
-GS = apply.monthly(GSPC, last)
-G = GS[.indexwday(GS) == 3]
-system('cal May 1950')
-png('firstdaywednesday.png')
-zeroplot(G$next.day, xlab='1950 to present')
+getSymbols('TLT', from='1900-01-01')
+W = weeklyReturn(Cl(TLT))
+w = W[.indexmon(W) == 7 ]
+w = w[-nrow(w),]
+png('tlt.png')
+zeroplot(w, main='TLT', up.col='dodgerblue', dn.col='dodgerblue4', xlab='2002-2011')
