@@ -1,7 +1,6 @@
 require(milk)
 getSymbols('TLT', from='1900-01-01')
-W = weeklyReturn(Cl(TLT))
-w = W[.indexmon(W) == 7 ]
-w = w[-nrow(w),]
+tlt = dailyReturn(Ad(TLT))
+T = tlt[.indexmon(tlt) == 7]
 png('tlt.png')
-zeroplot(w, main='TLT', up.col='dodgerblue', dn.col='dodgerblue4', xlab='2002-2011')
+zeroplot(T, up.col='dodgerblue', dn.col='dodgerblue4', main='TLT', xlab='2002 to 2011')
