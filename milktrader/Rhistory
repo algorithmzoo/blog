@@ -1,6 +1,22 @@
 require(milk)
-getSymbols('TLT', from='1900-01-01')
-tlt = dailyReturn(Ad(TLT))
-T = tlt[.indexmon(tlt) == 7]
-png('tlt.png')
-zeroplot(T, up.col='dodgerblue', dn.col='dodgerblue4', main='TLT', xlab='2002 to 2011')
+require(PerformanceAnalytics)
+getSymbols('^IBEX', from='1900-01-01')
+IBEX = IBEX['1993-08::']
+ibex = dailyReturn(Cl(IBEX))
+names(ibex) = 'RET'
+ibex$two = lag(rollapply(ibex$RET, 2, Return.cumulative)     ,k=-2)
+ibex$three = lag(rollapply(ibex$RET, 3, Return.cumulative)     ,k=-3)
+ibex$four = lag(rollapply(ibex$RET, 4, Return.cumulative)     ,k=-4)
+tail(IBEX)
+tail(ibex)
+zero = 6368.8
+two = 6801.8
+three = 678.1
+three = 6738.1
+four = 6720
+(four-zero)/zero
+(three-zero)/zero
+(two-zero)/zero
+ib = ibex[ibex$RET < -0.048]
+png('fourIBEX.png')
+zeroplot(ib$four,  up.col='wheat', dn.col='wheat4', main='IBEX', xlab='1996 to present')

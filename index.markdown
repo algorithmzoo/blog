@@ -2,7 +2,7 @@ SPX     | XSP  | monkey   |  goldenrod    | goldenrod4
 NDX     | MNX  | lion     |  yellow       | yellow4  
 RUT     | RMN  | elephant |  khaki        | khaki4   
 DJIA    | DJX  | rhino    |  darkorange   | darkorange4  
-OEX     | XEO  | hippo    |  wheat        | wheat4  
+foreign |      | hippo    |  wheat        | wheat4  
                             
 DGS30   |      | whale    |  dodgerblue   | dodgerblue4
 DGS10   | TNX  | dolphin  |  skyblue      | skyblue4  
