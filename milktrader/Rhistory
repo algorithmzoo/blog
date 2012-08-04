@@ -1,22 +1,12 @@
 require(milk)
-require(PerformanceAnalytics)
-getSymbols('^IBEX', from='1900-01-01')
-IBEX = IBEX['1993-08::']
-ibex = dailyReturn(Cl(IBEX))
-names(ibex) = 'RET'
-ibex$two = lag(rollapply(ibex$RET, 2, Return.cumulative)     ,k=-2)
-ibex$three = lag(rollapply(ibex$RET, 3, Return.cumulative)     ,k=-3)
-ibex$four = lag(rollapply(ibex$RET, 4, Return.cumulative)     ,k=-4)
-tail(IBEX)
-tail(ibex)
-zero = 6368.8
-two = 6801.8
-three = 678.1
-three = 6738.1
-four = 6720
-(four-zero)/zero
-(three-zero)/zero
-(two-zero)/zero
-ib = ibex[ibex$RET < -0.048]
-png('fourIBEX.png')
-zeroplot(ib$four,  up.col='wheat', dn.col='wheat4', main='IBEX', xlab='1996 to present')
+require(gdata)
+nfp = read.xls('~/Desktop/Release day and time for the Employment Situation news release 1966-present.xls', sheet=2, skip=1)
+foofoo = nfp
+foo <- foofoo[1:47,1:(ncol(foofoo)-4)] #remove excess columns
+foo <- as.data.frame(lapply(foo,as.character),stringsAsFactors=FALSE) #change factors to strings so paste works
+foo <- apply(foo,2,function(x) gsub("*","",x,fixed=TRUE)) #get rid of asterisk in a few cells
+foo[33,11] <- "11/5" #fix one off day with year
+foo2<-as.data.frame(foo[,2:13],stringsAsFactors=FALSE) #create output data.frame
+foo2[,1:11]<-apply(foo2[,1:11],2,function(x) paste(x,foo[,1],sep="/")) #add year to columns that need it
+foo2[,1:11] <- as.data.frame(sapply(1:11,function(i) as.Date(foo2[,i],format="%m/%d/%Y"),simplify=FALSE)) #convert first 11 columns
+foo2[,12] <- as.Date(foo2[,12],format="%m/%d/%y") #and do the 12th column (notice %y instead of %Y for 2 digit year)
