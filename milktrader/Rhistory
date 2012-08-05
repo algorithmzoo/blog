@@ -1,12 +1,22 @@
 require(milk)
 require(gdata)
 nfp = read.xls('~/Desktop/Release day and time for the Employment Situation news release 1966-present.xls', sheet=2, skip=1)
-foofoo = nfp
-foo <- foofoo[1:47,1:(ncol(foofoo)-4)] #remove excess columns
-foo <- as.data.frame(lapply(foo,as.character),stringsAsFactors=FALSE) #change factors to strings so paste works
-foo <- apply(foo,2,function(x) gsub("*","",x,fixed=TRUE)) #get rid of asterisk in a few cells
-foo[33,11] <- "11/5" #fix one off day with year
-foo2<-as.data.frame(foo[,2:13],stringsAsFactors=FALSE) #create output data.frame
-foo2[,1:11]<-apply(foo2[,1:11],2,function(x) paste(x,foo[,1],sep="/")) #add year to columns that need it
-foo2[,1:11] <- as.data.frame(sapply(1:11,function(i) as.Date(foo2[,i],format="%m/%d/%Y"),simplify=FALSE)) #convert first 11 columns
-foo2[,12] <- as.Date(foo2[,12],format="%m/%d/%y") #and do the 12th column (notice %y instead of %Y for 2 digit year)
+write.table(nfp, 'foo.csv')
+
+# see bash script for magic
+
+foo = read.zoo('fixedfoo', format='%m/%d/%y')
+baz = head(foo, n= 524)
+getSymbols('^GSPC', from='1900-01-01')
+G = lag(dailyReturn(Cl(GSPC)), k=-1)
+g = G[index(baz)]
+gg = g[.indexmon(g) == 7]
+
+# a little test becaause I skipped a few lines with assigning G
+
+Cl(GSPC)['2011-08']
+
+# okay, it's good
+
+png('nfpAUG.png')
+zeroplot(gg, xlab='1969 to 2011')
