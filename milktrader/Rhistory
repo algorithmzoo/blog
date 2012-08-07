@@ -1,22 +1,15 @@
 require(milk)
-require(gdata)
-nfp = read.xls('~/Desktop/Release day and time for the Employment Situation news release 1966-present.xls', sheet=2, skip=1)
-write.table(nfp, 'foo.csv')
-
-# see bash script for magic
-
-foo = read.zoo('fixedfoo', format='%m/%d/%y')
-baz = head(foo, n= 524)
 getSymbols('^GSPC', from='1900-01-01')
-G = lag(dailyReturn(Cl(GSPC)), k=-1)
-g = G[index(baz)]
-gg = g[.indexmon(g) == 7]
-
-# a little test becaause I skipped a few lines with assigning G
-
-Cl(GSPC)['2011-08']
-
-# okay, it's good
-
-png('nfpAUG.png')
-zeroplot(gg, xlab='1969 to 2011')
+getSymbols('^VIX', from='1900-01-01')
+VIX$RET = dailyReturn(Cl(VIX))
+GSPC$RET = dailyReturn(Cl(GSPC))
+GSPC$next.day = lag(GSPC$RET, k=-1)
+GSPC$fortwo = ifelse(GSPC$RET > 0 & lag(GSPC$RET) > 0, 1, 0)
+VIX$fortwo = ifelse(VIX$RET > 0 & lag(VIX$RET) > 0, 1, 0)
+G = GSPC[GSPC$fortwo == 1]
+V = VIX[VIX$fortwo == 1]
+foo = merge(V, G)
+bar = foo[foo$fortwo == 1 & foo$fortwo.1 == 1]
+baz = bar['2003-10::']
+png('spxvix.png')
+zeroplot(baz$next.day, xlab='Oct 2003 to present')
