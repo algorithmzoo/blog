@@ -1,8 +1,6 @@
 require(milk)
-getSymbols('^NDX', from='1900-01-01')
-NDX$RET = dailyReturn(Cl(NDX))
-NDX$next.day = lag(NDX$RET, k=-1)
-N = NDX[NDX$RET > .008 & .indexwday(NDX) == 2 & .indexmon(NDX) == 7]
-system('cal aug 2011
-png('ndxtueaug.png')
-zeroplot( N$next.day , main='NDX', up.col = 'yellow', dn.col= 'yellow4', xlab='1986 to present')
+getSymbols('^GSPC', from='1900-01-01')
+G = monthlyReturn(Cl(GSPC))
+g = G[.indexmon(G) == 7]
+png('augSPX.png')
+zeroplot(g, xlab='1950 to present')
