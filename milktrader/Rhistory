@@ -1,16 +1,9 @@
 require(milk)
-getSymbols('^GSPC', from='1900-01-01')
-GSPC$RET = dailyReturn(Cl(GSPC))
-GSPC$mon = ifelse(GSPC$RET[.indexwday(GSPC) == 1] > 0 , 1, 0)
-GSPC$tue = ifelse(GSPC$RET[.indexwday(GSPC) == 2] > 0 , 1, 0)
-GSPC$wed = ifelse(GSPC$RET[.indexwday(GSPC) == 3] > 0 , 1, 0)
-GSPC$thu = ifelse(GSPC$RET[.indexwday(GSPC) == 4] > 0 , 1, 0)
-G = GSPC[,c(8:11)]
-g = ifelse(lag(G$mon, k=4) == 1 & lag(G$tue , k=3) == 1 & lag(G$wed, k=2) ==1 & lag(G$thu) ==1, 1, 0)
-win = g[g == 1]
-system('cal may 2012')
-GSPC$RET['2012-05']
-GG = dailyReturn(Cl(GSPC))
-GGG = GG[index(win)]
-png('winweek.png')
-zeroplot(GGG, xlab='1950 to present')
+require(PerformanceAnalytics)
+getSymbols('TLT', from='1900-01-01')
+TLT$RET = dailyReturn(Cl(TLT))
+TLT$back10 = rollapply(TLT$RET, 10, Return.cumulative)
+TLT$in10 = lag(TLT$RET, k=-10)
+T = TLT[TLT$back10 < - .06]
+png('TLTin10.png')
+zeroplot(T$in10, up.col='dodgerblue', dn.col='dodgerblue4', main='TLT', xlab='2002 to present')

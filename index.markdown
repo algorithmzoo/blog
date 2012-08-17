@@ -4,7 +4,7 @@ RUT     | RMN  | elephant |  khaki        | khaki4
 DJIA    | DJX  | rhino    |  darkorange   | darkorange4  
 foreign |      | hippo    |  wheat        | wheat4  
                             
-DGS30   |      | whale    |  dodgerblue   | dodgerblue4
+DGS30   | TLT  | whale    |  dodgerblue   | dodgerblue4
 DGS10   | TNX  | dolphin  |  skyblue      | skyblue4  
 DGS5    |      | swordfish|  cyan         | cyan4 
 DGS2    |      | baracuda |  deepskyblue  | deepskyblue4  
