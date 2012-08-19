@@ -1,9 +1,3 @@
 require(milk)
-require(PerformanceAnalytics)
-getSymbols('TLT', from='1900-01-01')
-TLT$RET = dailyReturn(Cl(TLT))
-TLT$back10 = rollapply(TLT$RET, 10, Return.cumulative)
-TLT$next10 = lag(TLT$back10, k=-10)
-T = TLT[TLT$back10 < - 0.06]
-png('newTLTin10.png')
-zeroplot(T$next10, up.col='dodgerblue', dn.col='dodgerblue4', main='TLT', xlab='2002 to present')
+png('ndx50.png')
+pythonplot(xlab="as of Aug 17, 2012")
