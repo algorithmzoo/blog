@@ -1,3 +1,10 @@
 require(milk)
-png('ndx50.png')
-pythonplot(xlab="as of Aug 17, 2012")
+require(PortfolioAnalytics)
+getSymbols('^NDX', from='1900-01-01')
+NDX$RET = dailyReturn(Cl(NDX))
+NDX$twelve = rollapply(NDX$RET, 12, Return.cumulative)
+NDX$next12 = lag( NDX$twelve, k=-12)
+N = NDX[NDX$twelve > .06]
+n = N[.indexmon(N) == 7]
+png('twelvedayrallyndx.png')
+zeroplot(n$next12, up.col='yellow', dn.col='yellow4', main='NDX', xlab='1986 to present')
