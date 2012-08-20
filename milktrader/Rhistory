@@ -1,10 +1,10 @@
 require(milk)
 require(PortfolioAnalytics)
-getSymbols('^GSPC', from='1900-01-01')
-GSPC$RET = dailyReturn(Cl(GSPC))
-GSPC$twelve = rollapply(GSPC$RET, 12, Return.cumulative)
-GSPC$next12 = lag(GSPC$twelve, k=-12)
-G = GSPC[GSPC$twelve > .035]
-g = G[.indexmon(G) == 7]
-png('spx12daysinaug.png')
-zeroplot(g$next12, xlab='1950 to present')
+getSymbols('^RUT', from='1900-01-01')
+RUT$RET = dailyReturn(Cl(RUT))
+RUT$twelve = rollapply(RUT$RET, 12, Return.cumulative)
+RUT$in12 = lag(RUT$twelve, k=-12)
+R = RUT[RUT$twelve > .06]
+r = R[.indexmon(R) == 7]
+png('rut12.png')
+zeroplot(r$in12, up.col='khaki', dn.col='khaki4', xlab='from 1996 to present', main='SPX')
