@@ -1,10 +1,10 @@
 require(milk)
 require(PortfolioAnalytics)
-getSymbols('^NDX', from='1900-01-01')
-NDX$RET = dailyReturn(Cl(NDX))
-NDX$twelve = rollapply(NDX$RET, 12, Return.cumulative)
-NDX$next12 = lag( NDX$twelve, k=-12)
-N = NDX[NDX$twelve > .06]
-n = N[.indexmon(N) == 7]
-png('twelvedayrallyndx.png')
-zeroplot(n$next12, up.col='yellow', dn.col='yellow4', main='NDX', xlab='1986 to present')
+getSymbols('^GSPC', from='1900-01-01')
+GSPC$RET = dailyReturn(Cl(GSPC))
+GSPC$twelve = rollapply(GSPC$RET, 12, Return.cumulative)
+GSPC$next12 = lag(GSPC$twelve, k=-12)
+G = GSPC[GSPC$twelve > .035]
+g = G[.indexmon(G) == 7]
+png('spx12daysinaug.png')
+zeroplot(g$next12, xlab='1950 to present')
