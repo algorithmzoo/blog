@@ -1,0 +1,9 @@
+require(milk)
+getSymbols('^GSPC', from='1900-01-01')
+GSPC$RET = dailyReturn(Cl(GSPC))
+G= GSPC[.indexmon(GSPC) == 7 & GSPC$RET < -0.01]
+foo = data.frame(row.names=c(1950:2012))
+foo$V1 = NA
+for(i in 1950:2012) foo[i-1949,] = nrow(G[as.character(i)])
+png('spxbar.png')
+barplot( foo$V1, horiz=TRUE, las=1, col='goldenrod', main="SPX", xlab="Number of Occurrences", names.arg=c(1950:2012), cex.name=.34, beside=TRUE)
