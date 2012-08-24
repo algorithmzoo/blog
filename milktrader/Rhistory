@@ -1,0 +1,6 @@
+require(milk)
+getSymbols('^NDX', from='1900-01-01')
+N = monthlyReturn(Cl(NDX))
+n = N[.indexmon(N) == 7]
+png('augustndx.png')
+barplot(n, horiz=TRUE, beside=TRUE, col=ifelse(n>0, "yellow", "yellow4"), las=1, names.arg=c(1986:2012), xlab='1986 to present', main='NDX', cex.names=.9)
