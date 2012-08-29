@@ -1,6 +1,8 @@
 require(milk)
-getSymbols('^NDX', from='1900-01-01')
-N = monthlyReturn(Cl(NDX))
-n = N[.indexmon(N) == 7]
-png('augustndx.png')
-barplot(n, horiz=TRUE, beside=TRUE, col=ifelse(n>0, "yellow", "yellow4"), las=1, names.arg=c(1986:2012), xlab='1986 to present', main='NDX', cex.names=.9)
+presidentialyears = seq(1952,2008,4)
+getSymbols('^GSPC', from='1900-01-01')
+G = monthlyReturn(Cl(GSPC))
+g = G[.indexmon(G) == 8]
+gg = g[.indexyear(g) %in% (presidentialyears-1900)]
+png('spxSepElection.png')
+zeroplot(gg, xlab="September returns in presidential election years")
