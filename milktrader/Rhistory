@@ -1,8 +1,8 @@
-require(milk)
-presidentialyears = seq(1952,2008,4)
-getSymbols('^GSPC', from='1900-01-01')
-G = monthlyReturn(Cl(GSPC))
-g = G[.indexmon(G) == 8]
-gg = g[.indexyear(g) %in% (presidentialyears-1900)]
-png('spxSepElection.png')
-zeroplot(gg, xlab="September returns in presidential election years")
+getSymbols('^NDX', from='1900-01-01')
+foo = monthlyReturn(Cl(NDX))
+bar = foo[.indexmon(foo) == 7]
+N = dailyReturn(Cl(NDX))
+n = N[index(bar)]
+nn = n[-(nrow(n)),]
+png('augNDXlastday.png')
+zeroplot(nn, main='NDX', xlab='1986 to 2011', up.col='yellow', dn.col='yellow4')
