@@ -1,8 +1,8 @@
-getSymbols('^NDX', from='1900-01-01')
-foo = monthlyReturn(Cl(NDX))
-bar = foo[.indexmon(foo) == 7]
-N = dailyReturn(Cl(NDX))
-n = N[index(bar)]
-nn = n[-(nrow(n)),]
-png('augNDXlastday.png')
-zeroplot(nn, main='NDX', xlab='1986 to 2011', up.col='yellow', dn.col='yellow4')
+getSymbols('^GSPC', from='1900-01-01')
+foot = monthlyReturn(Cl(GSPC))
+bart = foot[.indexmon(foot) ==7]
+G = dailyReturn(Cl(GSPC))
+g = G[index(bart)]
+gg = g[-(nrow(g)),]
+png('AUGspx.png')
+zeroplot(gg, xlab='1950 to 2011')
