@@ -1,8 +1,10 @@
 getSymbols('^GSPC', from='1900-01-01')
-foot = monthlyReturn(Cl(GSPC))
-bart = foot[.indexmon(foot) ==7]
-G = dailyReturn(Cl(GSPC))
-g = G[index(bart)]
-gg = g[-(nrow(g)),]
-png('AUGspx.png')
+G = GSPC[.indexmon(GSPC) == 8]
+foo = matrix(nrow= 62)
+for (i in 1950:2011)
+foo[i-1949,] = as.character(index(first(G[.indexyear(G) == i-1900])))
+bar = as.zoo(foo)
+g = dailyReturn(G)
+gg = g[bar]
+png('firstSepday.png')
 zeroplot(gg, xlab='1950 to 2011')
