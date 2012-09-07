@@ -1,10 +1,6 @@
 getSymbols('^GSPC', from='1900-01-01')
-G = GSPC[.indexmon(GSPC) == 8]
-foo = matrix(nrow= 62)
-for (i in 1950:2011)
-foo[i-1949,] = as.character(index(first(G[.indexyear(G) == i-1900])))
-bar = as.zoo(foo)
-g = dailyReturn(G)
-gg = g[bar]
-png('firstSepday.png')
-zeroplot(gg, xlab='1950 to 2011')
+G = dailyReturn(Cl(GSPC))
+G$nextday = lag(G, k= -1)
+g = G[G[,1] > .02 & .indexmon(G[,1]) == 8]
+png('rallyInSep.png')
+zeroplot(g[,2], xlab='1950 to 2011')
