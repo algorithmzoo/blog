@@ -1,6 +1,5 @@
 getSymbols('^GSPC', from='1900-01-01')
-G = dailyReturn(Cl(GSPC))
-G$nextday = lag(G, k= -1)
-g = G[G[,1] > .02 & .indexmon(G[,1]) == 8]
-png('rallyInSep.png')
-zeroplot(g[,2], xlab='1950 to 2011')
+G = monthlyReturn(Cl(GSPC))
+g = G[.indexmon(G) == 8]
+png('sepSPX.png')
+zeroplot(g, xlab='from 1950 to present')
