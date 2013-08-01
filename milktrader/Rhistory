@@ -1,6 +1,8 @@
-getSymbols('^RUT', from='1900-01-01')
-R = monthlyReturn(Cl(RUT))
-rut = R[.indexmon(R) == 7]
-png('aug-RUT.png')
-zeroplot(rut, xlab='from 1987 to present', up.col='khaki', dn.col='khaki4', main="RUT")
+require(milk)
+require(quantmod)
+getSymbols('^GSPC', from='1900-01-01')
+G = monthlyReturn(Cl(GSPC))
+g = G[.indexmon(G) == 7]
+png('aug-SPX.png')
+zeroplot(g, xlab='from 1950 to present')
 dev.off()
